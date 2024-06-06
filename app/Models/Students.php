@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class Students extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = [
         'name',

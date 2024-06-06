@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentStock extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['student_id', 'stock_id', 'quantity', 'type', 'campus_id', 'year_id'];
     protected $table = 'student_stock';

@@ -9,7 +9,7 @@ use PendingPromotionStudents;
 
 class PendingPromotion extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $table = 'pending_promotions';
     protected $fillable = [

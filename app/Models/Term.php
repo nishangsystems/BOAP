@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Term extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     public function sequences(){
         return $this->hasMany(Sequence::class, 'term_id');

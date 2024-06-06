@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CampusSemesterConfig extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['campus_id','semester_id', 'courses_date_line'];
     protected $table =  'campus_semester_config';

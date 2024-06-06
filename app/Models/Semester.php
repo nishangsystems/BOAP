@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Semester extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['name', 'background_id', 'sem', 'program_id', 'ca_latest_date', 'exam_latest_date'];
 

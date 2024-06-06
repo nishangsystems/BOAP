@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProgramLevel extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     
     protected $fillable = ['program_id', 'level_id', 'resit_cost'];
     

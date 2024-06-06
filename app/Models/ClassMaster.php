@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassMaster extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     public function class(){
         return  $this->belongsTo(SchoolUnits::class, 'department_id');

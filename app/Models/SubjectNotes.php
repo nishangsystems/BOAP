@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubjectNotes extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     protected $fillable = [
         'class_subject_id',
         'note_name',

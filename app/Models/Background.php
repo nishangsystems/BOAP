@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Background extends Model
 {
-    use HasFactory;
+
+    use HasFactory; protected $connection = "mysql2";
+    protected $connection = "mysql2";
     protected $fillable = ['background_name'];
 
     public function semesters()

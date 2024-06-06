@@ -54,7 +54,7 @@ class TransactionController extends Controller
             $collection = new Collection();
             
             // return response($request->all(), 400);
-            $momoTransactionId = $collection->requestToPay(Uuid::uuid4()->toString(), '237' . $request->tel, $request->amount);
+            $momoTransactionId = $collection->requestToPay(Uuid::uuid4()->toString(), (strlen($request->tel) == 9 ? '237' . $request->tel : $request->tel), $request->amount);
             // dd($momoTransactionId);
             //save transaction
            $transaction = new Transaction();

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BoardingFee extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = [
         'amount_new_student',

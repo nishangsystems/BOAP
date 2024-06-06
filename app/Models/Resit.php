@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Resit extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     
     protected $fillable = ['year_id', 'background_id', 'start_date', 'end_date'];
     

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payments extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = [	"payment_id","student_id","batch_id",'unit_id',"amount","reference_number","import_reference", 'user_id', 'debt'];
 

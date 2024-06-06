@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SemesterType extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
      protected $fillable = ['background_name'];
 
      protected $table = 'backgrounds';

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     
     protected $fillable = ['from_year', 'to_year', 'from_class', 'to_class', 'type', 'user_id'];
 

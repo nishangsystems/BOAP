@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TranscriptRating extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     protected $fillable = ['mode', 'duration', 'current_price', 'former_price', 'user_id'];
 
     public function createdBy()

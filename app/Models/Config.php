@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['year_id','seq_id', 'start_date', 'end_date'];
     protected $dates =  ['start_date', 'end_date'];

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     protected $fillable = ['user_id', 'title', 'message', 'unit_id', 'date', 'status', 'campus_id', 'visibility', 'school_unit_id', 'level_id'];
     protected $table = 'notifications';
 

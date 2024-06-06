@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FAQ extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     protected $fillable = ['question', 'answer', 'status', 'campus_id', 'user_id',];
 
     protected $table = 'faqs';

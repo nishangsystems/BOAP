@@ -9,7 +9,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class SchoolUnits extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     use HasRecursiveRelationships;
 
     protected $fillable = [

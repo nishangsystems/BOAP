@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentSubject extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['student_id', 'semester_id', 'course_id', 'year_id', 'resit_id'];
 

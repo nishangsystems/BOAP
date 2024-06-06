@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CampusStock extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['campus_id', 'stock_id', 'quantity'];
 

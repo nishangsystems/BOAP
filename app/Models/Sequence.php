@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sequence extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['name', 'term_id'];
 }

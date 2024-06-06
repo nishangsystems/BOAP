@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transcript extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
     /**
      * Summary of fillable
      * @var array $fillable 

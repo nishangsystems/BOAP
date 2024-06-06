@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockTransfers extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['sender_campus', 'stock_id', 'receiver_campus', 'user_id', 'type', 'quantity'];
     protected $table = 'stock_transfers';

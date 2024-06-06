@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CampusProgram extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = ['campus_id', 'program_level_id', 'fees', 'max-credit'];
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentClass extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     use \Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 

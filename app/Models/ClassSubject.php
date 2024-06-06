@@ -8,7 +8,7 @@ use \App\Helpers\Helpers;
 
 class ClassSubject extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     
     protected $fillable = ['class_id', 'coef', 'status', 'subject_id'];

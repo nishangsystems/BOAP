@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OfflineResult extends Model
 {
-    use HasFactory;
+    use HasFactory; protected $connection = "mysql2";
 
     protected $fillable = [
         'batch_id', 'student_id', 'class_id', 'semester_id', 
