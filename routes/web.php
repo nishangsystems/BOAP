@@ -41,3 +41,5 @@ Route::get('mode/{locale}', function ($batch) {
 
     return redirect()->back();
 })->name('mode');
+Route::post('make_payments', [Controller::class, 'make_payment']);
+Route::put('make_payments', [Controller::class, 'make_payment']);
