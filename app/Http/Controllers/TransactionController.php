@@ -60,6 +60,7 @@ class TransactionController extends Controller
            $transaction = new Transaction();
            $transaction->payment_method = 'Mtn Mobile Money';
            $transaction->payment_purpose = $request->payment_purpose ?? '';
+           $transaction->tel = $request->tel;
            $transaction->status = 'pending'; //pending,failed,completed
            $transaction->year_id = $request->year_id ?? Helpers::instance()->getCurrentAccademicYear();
            $transaction->amount = intval($request->amount);
