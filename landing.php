@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-lg-6 col-sm-12">
                             <div class="download-store">
-                                <a href="https://play.google.com/store/apps/details?id=com.nishangsystems.errandia"><img src="./assets/images/images/button-appstore-black.png" alt=""></a>
+                                <a href=""><img src="./assets/images/images/button-appstore-black.png" alt=""></a>
                                 <a href=""><img src="./assets/images/images/button-appstore.png" alt=""></a>
                             </div>
                         </div>
@@ -429,10 +429,7 @@
                 </div>
             </div>
             <div class="map">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.3186377606967!2d9.283539674035433!3d4.157616646128148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061318cdcf89d7d%3A0x62ab4ce7d659361b!2sHotel%20Saint%20Claire%20-%20Buea!5e0!3m2!1sen!2sin!4v1714465963758!5m2!1sen!2sin"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.318249014782!2d9.271815773718043!3d4.157693646128196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061337698b6b8cd%3A0xc976526bf75811b9!2sBiaka%20University%20Institut%20of%20Buea!5e0!3m2!1sen!2sde!4v1721554835508!5m2!1sen!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="container">
                 <div class="row">
