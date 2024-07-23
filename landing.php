@@ -117,13 +117,13 @@
         <section id="faq">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3 col-md-5 col-sm-12">
+                    <div class="">
                         <div class="left-content-about">
                             <h2>Frequently Asked Questions</h2>
                             <p>We've answered some of your pertinent questions</p>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-7 col-sm-12">
+                    <div class="">
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading0">
@@ -384,53 +384,8 @@
         </section>
 
 
-        <section id="contact">
-            <div class="container">
-                <div class="contact-heading">
-                    <h3>Get in Touch with Us</h3>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-sm-12">
-                        <div class="d-flex align-items-center">
-                            <div class="contact-icon">
-                                <img src="./assets/images/icons/icon-contact-phone@2x.png"
-                                    alt="">
-                            </div>
-                            <div class="contact-details">
-                                <h4>Call Us</h4>
-                                <p>+237 679135426</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-12">
-                        <div class="d-flex align-items-center">
-                            <div class="contact-icon">
-                                <img src="./assets/images/icons/icon-contact-phone@2x-1.png"
-                                    alt="">
-                            </div>
-                            <div class="contact-details">
-                                <h4>Location</h4>
-                                <p>Hotel St. Claire, Molyko, Buea South West Region, Cameroon</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-12">
-                        <div class="d-flex align-items-center">
-                            <div class="contact-icon">
-                                <img src="./assets/images/icons/icon-contact-phone@2x-2.png"
-                                    alt="">
-                            </div>
-                            <div class="contact-details">
-                                <h4>Email</h4>
-                                <p>info@errandia.cm, support@errandia.cm</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.318249014782!2d9.271815773718043!3d4.157693646128196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1061337698b6b8cd%3A0xc976526bf75811b9!2sBiaka%20University%20Institut%20of%20Buea!5e0!3m2!1sen!2sde!4v1721554835508!5m2!1sen!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
+        <section id="contact border-top border-secondary">
+            
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5 col-sm-6 contact-footer text-center">
@@ -563,13 +518,13 @@
                                                 <div class="accordion-body px-0" style="display: flex; overflow-x: scroll;">
                                                     <table class="table mx-2 shadow table-stripped">
                                                         <thead class="text-uppercase border-y border-dark">
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">program name</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">code</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">degree type</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">duration</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">requirements</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">application deadline</th>
-                                                            <th class="border-x px-3 py-1 text-primary bg-light">application status</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">program name</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">code</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">degree type</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">duration</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">requirements</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">application deadline</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">application status</th>
                                                         </thead>
                                                         <tbody>`;
                                         // add table rows; program data
