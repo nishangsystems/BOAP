@@ -69,10 +69,10 @@
                     <div class="left-content h-100 d-flex flex-column justify-content-center py-5">
                         <h1 class="text-white title">Biaka University Institute of Buea</h1>
                         <span>Knowloedge and service to humanity</span>
-                        <div class="download-store my-4 py-4">
+                        <!-- <div class="download-store my-4 py-4">
                             <a href="https://play.google.com/store/apps/details?id=com.nishangsystems.errandia"><img src="./assets/images/images/button-appstore-black.png" alt=""></a>
                             <a href=""><img src="./assets/images/images/button-appstore.png" alt=""></a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12">
