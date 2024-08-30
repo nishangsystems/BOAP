@@ -53,8 +53,12 @@
                                 </li>
                         </ul>
                         <form class="d-flex">
-                            <a class="nav-link btn btn-sm btn-outline-danger mx-4 px-5" href="https://apply.buibsystems.org">Apply Now</span></a>
-                            <a class="nav-link btn btn-sm btn-outline-success mx-4 px-5" href="https://students.buibsystems.org">Already A Student</span></a>
+                            <span>
+                                <a class="nav-link btn btn-sm btn-outline-danger mx-4 cta-btn" href="https://apply.buibsystems.org">Apply Now</span></a>
+                            </span>
+                            <span>
+                                <a class="nav-link btn btn-sm btn-outline-success mx-4 cta-btn" href="https://students.buibsystems.org">Already A Student</span></a>
+                            </span>
                         </form>
                     </div>
                 </div>
