@@ -66,18 +66,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <div class="left-content h-100 d-flex flex-column justify-content-center">
+                    <div class="left-content h-100 d-flex flex-column justify-content-center py-5">
                         <h1 class="text-white title">Biaka University Institute of Buea</h1>
                         <span>Knowloedge and service to humanity</span>
-                        <div class="download-store my-4">
+                        <div class="download-store my-4 py-4">
                             <a href="https://play.google.com/store/apps/details?id=com.nishangsystems.errandia"><img src="./assets/images/images/button-appstore-black.png" alt=""></a>
                             <a href=""><img src="./assets/images/images/button-appstore.png" alt=""></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <img class="img-hero" src="./assets/images/images/img-hero-errandia.png"
-                        alt="">
+                    <!-- <img class="img-hero" src="./assets/images/images/img-hero-errandia.png" -->
+                        <!-- alt=""> -->
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
         </section>
 
         
-        <section id="faq">
+        <!-- <section id="faq">
             <div class="container">
                 <div class="row">
                     <div class="">
@@ -381,7 +381,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
 
         <section id="contact border-top border-secondary">
@@ -519,10 +519,10 @@
                                                     <table class="table mx-2 shadow table-stripped">
                                                         <thead class="text-uppercase border-y border-dark">
                                                             <th class="border-x px-3 py-1 text-success bg-light">program name</th>
-                                                            <th class="border-x px-3 py-1 text-success bg-light">code</th>
+                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">code</th> -->
                                                             <th class="border-x px-3 py-1 text-success bg-light">degree type</th>
-                                                            <th class="border-x px-3 py-1 text-success bg-light">duration</th>
-                                                            <th class="border-x px-3 py-1 text-success bg-light">requirements</th>
+                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">duration</th> -->
+                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">requirements</th> -->
                                                             <th class="border-x px-3 py-1 text-success bg-light">application deadline</th>
                                                             <th class="border-x px-3 py-1 text-success bg-light">application status</th>
                                                         </thead>
