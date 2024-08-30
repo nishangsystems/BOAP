@@ -62,7 +62,7 @@
         </div>
     </header>
 
-    <section id="home" style="height: 100vh;" class="bg-image-1">
+    <section id="home" class="bg-image-1">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -519,14 +519,14 @@
                                                     <table class="table mx-2 shadow table-stripped">
                                                         <thead class="text-uppercase border-y border-dark">
                                                             <th class="border-x px-3 py-1 text-success bg-light">program name</th>
-                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">code</th> -->
+                                                            <th class="border-x px-3 py-1 text-success bg-light">code</th>
                                                             <th class="border-x px-3 py-1 text-success bg-light">degree type</th>
-                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">duration</th> -->
-                                                            <!-- <th class="border-x px-3 py-1 text-success bg-light">requirements</th> -->
+                                                            <th class="border-x px-3 py-1 text-success bg-light">duration</th>
+                                                            <th class="border-x px-3 py-1 text-success bg-light">requirements</th>
                                                             <th class="border-x px-3 py-1 text-success bg-light">application deadline</th>
                                                             <th class="border-x px-3 py-1 text-success bg-light">application status</th>
                                                         </thead>
-                                                    <tbody>`;
+                                                        <tbody>`;
                                         // add table rows; program data
                                         for (const xkey in element) {
                                             if (Object.hasOwnProperty.call(element, xkey)) {
@@ -535,10 +535,10 @@
                                                 item += `
                                                                 <tr class="shadow-sm">
                                                                     <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.program}</span></td>
-                                                                    <!-- <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.prefix}#${rec.suffix}#</span></td> -->
+                                                                    <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.prefix}#${rec.suffix}#</span></td>
                                                                     <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.deg_name}</span></td>
-                                                                    <!-- <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.duration} years</span></td> -->
-                                                                    <!-- <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.requirements ? rec.requirements: '------'}</span></td> -->
+                                                                    <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.duration} years</span></td>
+                                                                    <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${rec.requirements ? rec.requirements: '------'}</span></td>
                                                                     <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${apply.end_date}</span></td>
                                                                     <td class="border-x px-1 py-1 text-dark bg-light"><span class="d-block bg-white h-100 rounded px-2 py-1">${apply.status}</span></td>
                                                                 </tr>
