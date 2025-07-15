@@ -1,6 +1,20 @@
 @extends('admin.layout')
 @section('section')
     <div class="container-fluid">
+        <form class="row" method="get">
+            <div class="col-sm-8">
+                <select name="year_id" required class="form-control" id="">
+                    <option value="">@lang('text.academic_year')</option>
+                    @foreach ($years as $year)
+                        <option value="{{ $year->id }}" {{ old('year_id', request('year_id')) == $year->id ? 'selected' : '' }}>{{ $year->name }}</option>
+                    @endforeach
+                </select>
+                <small>@lang('text.select_academic_year')</small>
+            </div>
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary form-control">@lang('text.word_next')</button>
+            </div>
+        </form>
         <table class="border">
             <thead class="text-uppercase text-primary border-bottom" style="background-color: aliceblue; font-family: Arial, Helvetica, sans-serif;">
                 <th class="border-left border-right">@lang('text.word_school')</th>

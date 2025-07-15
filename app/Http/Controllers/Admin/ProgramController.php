@@ -1573,13 +1573,15 @@ class ProgramController extends Controller
     public function finance_summary_report(Request $request){
         $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
         $school_structure = $this->api_service->school_program_structure();
+        $year = Batch::find($year_id);
         $data['school_structure'] = collect($school_structure->first());
+        $data['years'] = Batch::all();
         $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)
             ->get()
             ->each(function($rec){
                 $rec->amount = optional($rec->transaction)->amount??0;
             });
-        $data['title'] = "Summary Financial Report";
+        $data['title'] = "Summary Financial Report &Rang; ".$year->name;
         return view('admin.student.finance_summary', $data);
     }
 
