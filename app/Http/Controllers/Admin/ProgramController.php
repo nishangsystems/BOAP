@@ -1564,9 +1564,25 @@ class ProgramController extends Controller
     public function finance_general_report(Request $request)
     {
         # code...
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
         $data['title'] = "General Financial Reports";
-        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->get();
+        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)->get();
         return view('admin.student.finance_general', $data);
+    }
+
+    public function finance_summary_report(Request $request){
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
+        $school_structure = $this->api_service->school_program_structure();
+        $year = Batch::find($year_id);
+        $data['school_structure'] = collect($school_structure->first());
+        $data['years'] = Batch::all();
+        $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)
+            ->get()
+            ->each(function($rec){
+                $rec->amount = optional($rec->transaction)->amount??0;
+            });
+        $data['title'] = "Summary Financial Report &Rang; ".$year->name;
+        return view('admin.student.finance_summary', $data);
     }
 
     private function sendAdmissionEmails($name, $email, $matric, $program, $campus, $fee1_dateline, $fee2_dateline, $director_name, $dean_name, $help_email, $file, $degree){
@@ -1686,7 +1702,7 @@ class ProgramController extends Controller
             $program = $programs->where('id', $request->program)->first();
             $data['program'] = $program;
             $data['title'] = ($program != null ? $program->name : '')." Admitted Students For {$batch->name} Accademic Year";
-            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('program_first_choice', $request->program)->where('admitted', 1)->select(['name', 'dob', 'pob', 'phone', 'program_first_choice', 'matric'])->distinct()->get();
+            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('program_first_choice', $request->program)->where('admitted', 1)->select(['name', 'dob', 'gender', 'pob', 'phone', 'program_first_choice', 'matric'])->distinct()->get();
         }
         // dd($data);
         return view('admin.student.admitted', $data);
