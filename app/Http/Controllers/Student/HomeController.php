@@ -307,7 +307,7 @@ class HomeController extends Controller
                 ]);
                 break;
                 
-            case 6:
+            case 6: case 6.5:
                 // dd($request->all());
                 $validity = Validator::make($request->all(), [
                     

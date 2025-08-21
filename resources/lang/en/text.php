@@ -6,7 +6,7 @@ return [
     'word_login'=>'login',
     'forgot_password'=>'I forgot my password',
     '_forgot_password'=>'forgot password',
-    'want_to_register'=>'I want to register',
+    'want_to_register'=>'I want to Apply',
     'tech_base'=>'Powered by Nishang System',
     'word_batch'=>'batch',
     'word_welcome'=>'welcome',
