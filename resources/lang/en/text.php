@@ -1017,7 +1017,7 @@ return [
     'pro_chancellor'=>'pro chancellor',
     'vice_chancellor'=>'vice chancellor',
     'DVC_academic_affairs_and_research'=>'DVC academic affairs & research',
-    'DVC_administration_and_finanace'=>'Director of administration & finanace',
+    'DVC_administration_and_finanace'=>'Director of administration & finance',
     'DVC_cooperation_and_innovation'=>'DVC cooperation & innovation',
     'word_registrar'=>'registrar',
     'your_ref'=>'your ref', 
