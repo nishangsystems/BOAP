@@ -208,6 +208,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::prefix('custom/applications')->name('custom_applications.')->group(function(){
         Route::get('', [CustomApplicationController::class, 'index'])->name('index');
+        Route::get('local/create', [CustomApplicationController::class, 'create_local'])->name('local.create');
+        Route::post('local/create', [CustomApplicationController::class, 'store_local']);
         Route::get('create', [CustomApplicationController::class, 'create'])->name('create');
         Route::post('create', [CustomApplicationController::class, 'store']);
         Route::get('switch', [CustomApplicationController::class, 'switch_program'])->name('switch');

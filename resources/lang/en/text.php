@@ -1099,5 +1099,6 @@ return [
     'number_of_payments'=>'No of Payments',
     'number_of_bypasses'=>'number of bypasses',
     'grand_total'=>'grand total',
-    ''
+    'admit_locals'=>'admit locals',
+    
 ]; 

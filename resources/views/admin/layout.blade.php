@@ -411,6 +411,14 @@
                         <b class="arrow"></b>
                     </li>
                     <li>
+                        <a href="{{route('admin.custom_applications.local.create')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.admit_locals')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
                         <a href="{{route('admin.custom_applications.create')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.admit_foreigners')}}
