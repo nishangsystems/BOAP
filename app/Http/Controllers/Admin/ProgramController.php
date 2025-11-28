@@ -1387,6 +1387,11 @@ class ProgramController extends Controller
                 
                 // dd(ApplicationForm::where('matric', $student_matric)->get());
                 if(ApplicationForm::where('matric', $student_matric)->count() == 0){
+                    // check if the matricule already exist in the main student system
+                    $matric_exist = json_decode($this->api_service->matric_exist($student_matric))->data??0;
+                    if($matric_exist == 1){
+                        goto NEXT_MATRIC;
+                    }
                     $data['title'] = "Change Student Program";
                     $data['application'] = $application;
                     $data['program'] = $program;
@@ -1395,8 +1400,8 @@ class ProgramController extends Controller
                     return view('admin.student.confirm_change_program', $data);
                 }else{
                     goto NEXT_MATRIC;
-                    $student = ApplicationForm::where('matric', $student_matric)->first();
-                    return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
+                    // $student = ApplicationForm::where('matric', $student_matric)->first();
+                    // return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
                 }
             }catch(\Throwable $th){
                 return back()->with('error', 'Failed to generate matricule. '.$th->getMessage());
