@@ -1219,6 +1219,10 @@ class ProgramController extends Controller
                     $student_matric = $prefix.$year.$suffix.$next_count;
                     // dd($student_matric);
                     if(ApplicationForm::where('matric', $student_matric)->where('id', '!=', $id)->count() == 0){
+                        $matric_exist = json_decode($this->api_service->matric_exist($student_matric))->data??0;
+                        if($matric_exist == 1){
+                            goto NEXT_MATRIC;
+                        }
                         $data['title'] = "Student Admission";
                         $data['application'] = $application;
                         $data['program'] = $program;
