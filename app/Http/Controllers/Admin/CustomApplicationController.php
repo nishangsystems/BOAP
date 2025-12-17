@@ -356,6 +356,10 @@ class CustomApplicationController extends Controller
                                 $platform_data[] = ['student'=>$stud, 'form'=>$aplf];
                             }
                         }
+                    }else{
+                        if($response['data']['errors'] != null){
+                            $errors .= collect($response['data']['errors'])->first();
+                        }
                     }
                     //code...
                 } catch (\Throwable $th) {
