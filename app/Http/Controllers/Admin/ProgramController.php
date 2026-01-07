@@ -1716,4 +1716,67 @@ class ProgramController extends Controller
         return view('admin.student.admitted', $data);
 
     }
+
+
+    // ENTRY QUALIFICATION REPORT
+    public function entry_qualification_report(Request $request){
+        $year = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        $certificates = collect(json_decode($this->api_service->certificates())->data??[]);
+        $data['certificates'] = $certificates;
+        // dd(vars: $certificates);
+        $data['title'] = "Entry Qualification Report For ".$year->name??'';
+
+        if($request->certificate_id != null){
+            $data['selected_certificate'] = $certificates->where('id', $request->certificate_id)->first();
+            $data['title'] = "Entry Qualification Report For ".$certificates->where('id', $request->certificate_id)->first()->certi??'';
+            $programs = collect(json_decode($this->api_service->programs())->data??[]);
+            $program_structure = $this->api_service->school_program_structure()?->collect('data')??null;
+            // dd($program_structure);
+            $data['report'] = ApplicationForm::where('year_id', $year->id)
+                ->where('entry_qualification', $request->certificate_id)
+                ->get()
+                ->each(function($rec)use($certificates, $programs, $program_structure){
+                    $rec->certificate_name = $certificates == null ? "" : optional(collect($certificates)->where('id', $rec->entry_qualification)->first())->certi??'';
+                    $rec->program_name = $programs->count() == 0 ? "" : $programs->where('id', $rec->program_first_choice)->first()?->name??'';
+                    $rec->region_name = $rec->_region?->region??'';
+                    $rec->school_name = $program_structure == null ? "" : $program_structure->where('id', $rec->program_first_choice)->first()->school??'';
+                });
+            // dd($data['reports']);
+            if($request->download == 'csv'){
+                $filename = 'entry_qualification_report_'.$data['selected_certificate']->certi.'_'.date('Ymd_His').'.csv';
+                $headers = array(
+                    "Content-type"        => "text/csv",
+                    "Content-Disposition" => "attachment; filename=$filename",
+                    "Pragma"              => "no-cache",
+                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                    "Expires"             => "0"
+                );
+
+                $columns = ['Name', 'Date of birth', 'Place of birth', 'Region of origin', 'Sex', 'Phone number', 'Email', 'School', 'Level', 'Option', 'Diplome'];
+                $callback = function() use($data, $columns) {
+                    $file = fopen('php://output', 'w');
+                    fputcsv($file, $columns);
+
+                    foreach ($data['report'] as $rec) {
+                        $row['Name']  = $rec->name;
+                        $row['Date of birth']    = $rec->dob;
+                        $row['Place of birth']    = $rec->pob;
+                        $row['Region of origin']    = $rec->region_name;
+                        $row['Sex']    = $rec->gender;
+                        $row['Phone number']    = $rec->phone;
+                        $row['Email']    = $rec->email;
+                        $row['School']    = $rec->school_name;
+                        $row['Level']    = $rec->level;
+                        $row['Option']    = $rec->program_name;
+                        $row['Diplome']    = $rec->certificate_name;
+                        fputcsv($file, array_values($row));
+                    }
+                    fclose($file);
+                };
+                return response()->streamDownload($callback, $filename, $headers);
+            }
+        }
+        // dd($data['reports']);
+        return view('admin.student.entry_qualification_report', $data);
+    }
 }

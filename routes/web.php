@@ -172,6 +172,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('admission_letter/{id?}', [ProgramController::class, 'admission_letter'])->name('admission_letter');
         Route::get('program/change/report', [ProgramController::class, 'program_change_report'])->name('program_change.report');
         Route::get('program/change/{id?}', [ProgramController::class, 'application_form_change_program'])->name('change_program');
+        Route::get('certification/entry/report', [ProgramController::class, 'entry_qualification_report'])->name('entry_qualification.report');
         Route::post('program/change/{id?}', [ProgramController::class, 'change_program']);
         Route::post('change_program/{id?}', [ProgramController::class, 'change_program_save'])->name('_change.program');
         Route::get('by_program/{id?}', [ProgramController::class, 'applications_per_program'])->name('by_program');

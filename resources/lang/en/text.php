@@ -1100,5 +1100,8 @@ return [
     'number_of_bypasses'=>'number of bypasses',
     'grand_total'=>'grand total',
     'admit_locals'=>'admit locals',
-    
+    'word_region'=>'region',
+    'entry_certificate'=>'entry certificate',
+    'download_csv'=>'download csv',
+    ''
 ]; 

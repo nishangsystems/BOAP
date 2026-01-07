@@ -488,8 +488,6 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="submenu">
                     <li>
                         <a href="#" class="dropdown-toggle text-capitalize">
                             <i  style="color: {{$bg1}}"class="menu-icon  fa fa-cog"></i>
@@ -531,6 +529,14 @@
                         <a href="{{route('admin.applications.program_change.report')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.program_change_report')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.applications.entry_qualification.report')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.entry_qualification_report')}}
                         </a>
 
                         <b class="arrow"></b>
