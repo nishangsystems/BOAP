@@ -1103,5 +1103,6 @@ return [
     'word_region'=>'region',
     'entry_certificate'=>'entry certificate',
     'download_csv'=>'download csv',
+    'entry_qualification_report'=>'entry qualification report',
     ''
 ]; 
