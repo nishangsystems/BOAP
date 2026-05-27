@@ -15,17 +15,17 @@ $em_key = time().random_int(3000, 3099);
                     @csrf
                     <div class="px-5 py-5 border-top shadow bg-light">
                         <div class="row w-100">
-                            {{-- <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.word_campus') }}</span></label>
                                 <select name="campus_id" class="form-control text-primary"  oninput="setDegreeTypes(event)">
                                     <option>{{ __('text.select_campus') }}</option>
-                                    @if (count($campuses) > 0)
-                                        <option selected value="{{ $campuses[0]->id }}" {{ $application->campus_id == $campuses[0]->id ? 'selected' : '' }}>{{ $campuses[0]->name }}</option>  
-                                    @endif
+                                    @foreach ($campuses as $campus)
+                                        <option selected value="{{ $campus->id }}" {{ $application->campus_id == $campus->id ? 'selected' : '' }}>{{ $campus->name }}</option>
+                                    @endforeach
                                 </select>
-                            </div> --}}
-                            <input type="hidden" name="campus_id" value="{{ $campuses[0]->id }}">
-                            <div class="col-sm-12 col-md-12">
+                            </div>
+                            {{-- <input type="hidden" name="campus_id" value="{{ $campuses[0]->id }}"> --}}
+                            <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.applying_for_phrase') }}</span><i class="text-danger text-xs">*</i></label>
                                 <select name="degree_id" class="form-control text-primary"  id="degree_types">  
                                     @if($application->degree_id != null)
@@ -135,8 +135,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <label class="text-secondary  text-capitalize">{{ __('text.telephone_number_bilang') }}<i class="text-danger text-xs">*</i></label>
-                                <input type="tel" class="form-control text-primary"  name="phone" value="{{ auth('student')->user()->phone }}" readonly required>
-                            </div>
+                            <input type="tel" class="form-control text-primary"  name="phone" value="{{ auth('student')->user()->phone }}" readonly required>
                         </div>
                         
                         {{-- <input type="hidden"  name="email" value="{{ auth('student')->user()->email }}"> --}}
@@ -832,7 +831,6 @@ $em_key = time().random_int(3000, 3099);
                                 </div>
                             </div>
                         </div>
-                        
                         
                     </div>
                 </form>

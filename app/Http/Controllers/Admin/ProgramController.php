@@ -1779,4 +1779,41 @@ class ProgramController extends Controller
         // dd($data['reports']);
         return view('admin.student.entry_qualification_report', $data);
     }
+
+
+    // report of applications per degree type
+    public function degree_applications_report(Request $request){
+        // get degrees and school program structure from main system and match with admitted applications
+        $degrees = collect(json_decode($this->api_service->degrees())->data??[]);
+        
+        if($request->degree_id != null){
+            $program_structure = $this->api_service->school_program_structure()?->collect('data')??null;
+            $certificates = collect(json_decode($this->api_service->certificates())->data??[]);
+            $degree = $degrees->where('id', $request->degree_id)->first();
+            $admitted_applications = ApplicationForm::whereNotNull('matricule')->whereNotNull('admitted_at')->where('degree_id', $request->degree_id)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get()
+                ->map(function($rec)use($program_structure, $certificates){
+                    return [
+                        'name' => $rec->name,
+                        'dob' => $rec->dob,
+                        'pob' => $rec->pob,
+                        'region' => $rec->_region->region,
+                        'gender' => $rec->gender,
+                        'phone' => $rec->phone,
+                        'email' => $rec->email,
+                        'level' => $rec->level,
+                        'school' => $program_structure->where('id', $rec->program_first_choice)->first()?->school??'',
+                        'program' => $program_structure->where('id', $rec->program_first_choice)->first()?->program??'',
+                        'diplome' => $certificates->where('id', $rec->entry_qualification)->first()?->certi??''
+                    ];
+                });
+
+        }
+
+        return view('admin.student.degree_applications_report', [
+            'title' => 'Degree Applications Report',
+            'degrees' => $degrees,
+            'degree' => $degree ?? null,
+            'admitted_applications' => $admitted_applications ?? null
+        ]);
+    }
 }

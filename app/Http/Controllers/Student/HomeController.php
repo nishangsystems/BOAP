@@ -221,11 +221,18 @@ class HomeController extends Controller
 
             // Assuming we are using direct momo payment
             $transaction = $application->transaction;
+            $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
+            if($tranzak_credentials != null){
+                $transaction = $application->tranzakTransaction;
+            }
+            // dd($transaction);
             $data['step'] = $step;
             if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
             elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
             elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
             elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
+            // dd($data['step']);
+            // dd(($transaction->payment_id != $application->degree_id));
             
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             $data['isMaster'] = $isMaster;
@@ -383,8 +390,9 @@ class HomeController extends Controller
         }elseif($step == 7){
             
             // dd('check point');
-            $pay_channel = 'momo';
             $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
+            $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
+            $pay_channel = $tranzak_credentials->count() > 0 ? 'tranzak' : 'momo';
             switch($pay_channel){
                 case 'momo':
 
@@ -433,7 +441,6 @@ class HomeController extends Controller
                     $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
                     // dd($_response->collect());
                     if($_response->status() == 200){
-        
                         session()->put('processing_tranzak_transaction_details', json_encode(json_decode($_response->body())->data));
                         session()->put('tranzak_credentials', json_encode($tranzak_credentials));
                         return redirect()->to(route('student.application.payment.processing', $application_id));
@@ -442,7 +449,7 @@ class HomeController extends Controller
                         goto GEN_TOKEN;
                     }
         
-                    session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
+                    session()->flash('error', 'Payment Failed. '.$_response->body());
                     return back()->withInput();
                     break;
             }
@@ -486,9 +493,9 @@ class HomeController extends Controller
         try {
             
             // check if application is open now
-            if(!(Helpers::instance()->application_open())){
-                return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
-            }
+            // if(!(Helpers::instance()->application_open())){
+            //     return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
+            // }
             //code...
             $transaction_status = (object) $request->all();
             // return $transaction_status;
@@ -497,8 +504,9 @@ class HomeController extends Controller
                     # code...
                     // save transaction and update application_form
                     $transaction = ['request_id'=>$transaction_status->requestId, 'amount'=>$transaction_status->amount, 'currency_code'=>$transaction_status->currencyCode, 'purpose'=>"application fee", 'mobile_wallet_number'=>$transaction_status->mobileWalletNumber, 'transaction_ref'=>$transaction_status->mchTransactionRef, 'app_id'=>$transaction_status->appId, 'transaction_time'=>$transaction_status->transactionTime, 'payment_method'=>((object)($transaction_status->payer))->paymentMethod, 'payer_user_id'=>((object)($transaction_status->payer))->userId, 'payer_name'=>((object)($transaction_status->payer))->name, 'payer_account_id'=>((object)($transaction_status->payer))->accountId, 'merchant_fee'=>((object)($transaction_status->merchant))->fee, 'merchant_account_id'=>((object)($transaction_status->merchant))->accountId, 'net_amount_recieved'=>((object)($transaction_status->merchant))->netAmountReceived];
-                    $transaction_instance =  Transaction::updateOrInsert(['transaction_id'=>$transaction_status->transactionId], $transaction);
-                    $transaction_instance = Transaction::where(['transaction_id'=>$transaction_status->transactionId])->first();
+                    $transaction['payment_id'] = ApplicationForm::find($appl_id)->degree_id;
+                    $transaction_instance =  \App\Models\TranzakTransaction::updateOrInsert(['transaction_id'=>$transaction_status->transactionId], $transaction);
+                    $transaction_instance = \App\Models\TranzakTransaction::where(['transaction_id'=>$transaction_status->transactionId])->first();
     
                     $appl = ApplicationForm::find($appl_id);
                     $appl->transaction_id = $transaction_instance->id;
@@ -772,7 +780,6 @@ class HomeController extends Controller
             return redirect(route('student.home'))->with('error', 'Operation failed.');
         }
     }
-
 
     //--------------    
     public function tranzak_pay(string $purpose, Request $request){
