@@ -19,7 +19,7 @@
                             <td class="border-left border-right">{{ $program->name }}</td>
                             <td class="border-left border-right">
                                 {{-- @if ($program->appliable == 1) --}}
-                                    <a href="{{ route('student.application.start', 0) }}?_prg={{ $program->id }}" class="btn btn-sm rounded btn-primary">apply</a>
+                                    <a href="{{ route('student.application.start', 0) }}?_prg={{ $program->id }}" class="btn btn-sm rounded btn-primary">@lang('text.word_apply')</a>
                                 {{-- @endif --}}
                             </td>
                         </tr>

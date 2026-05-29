@@ -69,8 +69,8 @@
                             <div class="mb-3 @error('gender') has-error @enderror">
                                 <select class="form-control rounded border-top-0 border-left-0 border-right-0 border-bottom " required name="gender">
                                     <option selected></option>
-                                    <option value="male" {{old('gender') == 'male' ? 'selected' : ''}}>Male</option>
-                                    <option value="female" {{old('gender') == 'female' ? 'selected' : ''}}>Female</option>
+                                    <option value="male" {{old('gender') == 'male' ? 'selected' : ''}}>@lang('text.word_male')</option>
+                                    <option value="female" {{old('gender') == 'female' ? 'selected' : ''}}>@lang('text.word_female')</option>
                                 </select>
                                 <i class="text-info">{{__('text.word_gender')}}</i>
                                 @error('gender')
@@ -88,7 +88,7 @@
         
                             <div class="mb-3 @error('pob') has-error @enderror">
                                 <input class="form-control rounded border-top-0 border-left-0 border-right-0 border-bottom " name="pob" value="{{old('pob')}}">
-                                <i class="text-info">{{__('text.date_of_birth')}}</i>
+                                <i class="text-info">{{__('text.place_of_birth')}}</i>
                                 @error('pob')
                                     <em class="text-danger">{{$message}}</em>
                                 @enderror

@@ -103,7 +103,7 @@
     <div class="navbar-container w-100 ace-save-state" id="navbar-container">
         <button type="button" class="navbar-toggle menu-toggler pull-left display" id="menu-toggler"
                 data-target="#sidebar">
-            <span class="sr-only">Toggle sidebar</span>
+            <span class="sr-only text-capitalize">@lang('text.word_toggle_sidebar')</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -126,7 +126,7 @@
                         <span class="nav-user-photo fa fa-globe"></span>
                         <span>
                             <small class="text-capitalize text-white">
-                                {{\Auth::user()->campus_id ? 'Campus Admin' : 'Admin'}}
+                                {{\Auth::user()->campus_id ? __('text.campus_admin') : __('text.word_admin')}}
                             </small>
 						</span>
                     </span>

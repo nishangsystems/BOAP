@@ -24,9 +24,9 @@ $user = \Auth()->user()
             @endphp
             <tr class="border-y text-center"><td colspan="3"><b class="heading text-capitalize">@lang('text.total_applicants'): {{ collect($totals)->sum('applicants') }}</b></td></tr>
             @foreach ($totals as $_sc => $school)
-                <tr class="border-y text-center"><td colspan="3"> <b class="header text-capitalize"> SCHOOL OF {{ $_sc ?? '----' }} :: @lang('text.word_applicants') : {{ $school['applicants'] }}</b> </td></tr>
+                <tr class="border-y text-center"><td colspan="3"> <b class="header text-capitalize"> @lang('text.SCHOOL_OF') {{ $_sc ?? '----' }} :: @lang('text.word_applicants') : {{ $school['applicants'] }}</b> </td></tr>
                 @foreach ($school['depts'] as $_dp => $department)
-                    <tr class="border-y text-center"><td colspan="3"> <span class="heading text-capitalize"> DEPARTMENT OF {{ $_dp ?? '----' }} :: @lang('text.word_applicants') : {{ $department['applicants'] }}</span> </td></tr>
+                    <tr class="border-y text-center"><td colspan="3"> <span class="heading text-capitalize"> @lang('text.DEPARTMENT_OF') {{ $_dp ?? '----' }} :: @lang('text.word_applicants') : {{ $department['applicants'] }}</span> </td></tr>
                     @foreach ($department['progs'] as $_pg => $program)
                         <tr class="border-y text-center">
                             <td class="border">{{ $counter++ }}</td>

@@ -44,11 +44,11 @@
                             <input type="hidden" name="campus_id" id="" value="{{\Auth::user()->campus_id}}">
                             @endif
                             <select name="campus_id" class="form-control" id="campus_id" onchange="loadPrograms(event.target, 'program_id')" {{ \Auth::user()->campus_id != null ? 'disabled' : ''}}>
-                                <option value="">select campus</option>
+                                <option value="">@lang('text.select_campus')</option>
                                 @forelse(\App\Models\Campus::all() as $campus)
                                     <option value="{{$campus->id}}" {{ \Auth::user()->campus_id == $campus->id ? 'selected' : ''}}>{{$campus->name}}</option>
                                 @empty
-                                    <option value="" selected>No data found</option>
+                                    <option value="" selected>@lang('text.no_campus_found')</option>
                                 @endforelse
                             </select>
                             @error('year')
@@ -97,7 +97,7 @@
                                 <input type="hidden" name="campus" id="" value="{{\Auth::user()->campus_id}}">
                                 @endif
                                 <select name="campus" class="form-control" required onchange="loadPrograms(event.target, 'clear_program_id')" {{ \Auth::user()->campus_id != null ? 'disabled' : ''}}>
-                                    <option value="">select campus</option>
+                                    <option value="">@lang('text.select_campus')</option>
                                     @foreach(\App\Models\Campus::all() as $campus)
                                         <option value="{{$campus->id}}" {{ \Auth::user()->campus_id == $campus->id ? 'selected' : ''}}>{{$campus->name}}</option>
                                     @endforeach
@@ -126,9 +126,9 @@
                 <div class="text-center text-capitalize text-primary py-3">{{__('text.file_format_csv')}}</div>
                 <table class="bg-light">
                     <thead class="text-capitalize bg-dark text-light fs-6">
-                        <th>name <span class="text-danger">*</span></th>
-                        <th>matric <span class="text-danger">*</span></th>
-                        <th>gender</th>
+                        <th>@lang('text.word_name') <span class="text-danger">*</span></th>
+                        <th>@lang('text.word_matricule') <span class="text-danger">*</span></th>
+                        <th>@lang('text.word_gender')</th>
                     </thead>
                     <tbody>
                         @for($i=0; $i < 4; $i++)

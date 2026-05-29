@@ -59,8 +59,8 @@
                             <div class="mb-3">
                                 <select class="form-control border-top-0 border-left-0 border-right-0 border-bottom  rounded" name="gender" required value="{{old('gender')}}">
                                     <option value=""></option>
-                                    <option value="male" {{old('gender') == 'male' ? 'selected': ''}}>male</option>
-                                    <option value="female" {{old('gender') == 'female' ? 'selected': ''}}>female</option>
+                                    <option value="male" {{old('gender') == 'male' ? 'selected': ''}}>@lang('text.word_male')</option>
+                                    <option value="female" {{old('gender') == 'female' ? 'selected': ''}}>@lang('text.word_female')</option>
                                 </select>
                                 <i class="text-info">@lang('text.word_gender')</i>
                             </div>

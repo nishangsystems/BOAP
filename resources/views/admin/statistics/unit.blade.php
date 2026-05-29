@@ -46,7 +46,7 @@
                         </tr>
                     @empty
                         <tr class="border-bottom border-dark text-center">
-                            no statistics found for selected academic year
+                            @lang('text.no_stats_phrase')
                         </tr>
                     @endforelse
                 </tbody>

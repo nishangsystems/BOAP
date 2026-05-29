@@ -35,7 +35,7 @@ $em_key = time().random_int(3000, 3099);
                             </div>
                         </div>
                         <div class="pt-5 d-flex justify-content-center">
-                            <button type="submit" class="px-5 py-1 btn btn-lg btn-primary" onclick="event.preventDefault(); confirm('Are you sure the selected degree type is OK?') ? ($('#application_form').submit()) : null">{{ __('text.new_application') }}</button>
+                            <button type="submit" class="px-5 py-1 btn btn-lg btn-primary" onclick="event.preventDefault(); confirm(@lang('text.confirm_degree_selection')) ? ($('#application_form').submit()) : null">{{ __('text.new_application') }}</button>
                         </div>
                     </div>
                 </form>
@@ -45,11 +45,11 @@ $em_key = time().random_int(3000, 3099);
                     @csrf
                     <div class="px-5 py-5 border-top shadow bg-light" style="font-size: 2rem; font-weight: 700;">
                         <a class="text-uppercase d-block w-100 alert-primary text-center py-5 border">
-                            Applying for {{ $application->type }} in {{ $application->campus }} campus
+                            @lang('text.application_degree_headline', ['degree_type' => $degree->deg_name, 'campus' => $campus->name])
                         </a>
                         <div class="pt-5 d-flex justify-content-center text-uppercase">
                             <a href="" class="px-5 py-2 btn btn-lg btn-danger mx-3" >{{ __('text.word_back') }}</a>
-                            <a href="" class="px-5 py-2 btn btn-lg btn-primary mx-3" onclick="confirm('Are you sure you are applying for  BACHELOR  Program?') ? (window.location=`{{ route('student.application.start', [1, $application->id]) }}`) : null">{{ __('text.word_continue') }}</a>
+                            <a href="" class="px-5 py-2 btn btn-lg btn-primary mx-3" onclick="confirm(@lang('text.confirm_selected_degree', ['degree_type' => $degree->deg_name])) ? (window.location=`{{ route('student.application.start', [1, $application->id]) }}`) : null">{{ __('text.word_continue') }}</a>
                         </div>
                     </div>
                 </form>
@@ -59,7 +59,7 @@ $em_key = time().random_int(3000, 3099);
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [2, $application->id]) }}">
                     @csrf
                     <div class="py-2 row bg-light border-top shadow">
-                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 1: {{ __('text.personal_details_bilang') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
+                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 1: {{ __('text.personal_details_bilang') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4>
                         <div class="py-2 col-sm-6 col-md-5 col-xl-4">
                             <label class="text-secondary  text-capitalize">{{ __('text.word_name_bilang') }}<i class="text-danger text-xs">*</i></label>
                             <div class="">
@@ -92,8 +92,8 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <select class="form-control text-primary"  name="marital_status">
                                     <option value=""></option>
-                                    <option value="single" {{ $application->marital_status == 'single' ? 'selected' : '' }}>single</option>
-                                    <option value="married" {{ $application->marital_status == 'married' ? 'selected' : '' }}>married</option>
+                                    <option value="single" {{ $application->marital_status == 'single' ? 'selected' : '' }}>@lang('text.word_single')</option>
+                                    <option value="married" {{ $application->marital_status == 'married' ? 'selected' : '' }}>@lang('text.word_married')</option>
                                 </select>
                             </div>
                         </div>
@@ -255,7 +255,7 @@ $em_key = time().random_int(3000, 3099);
                     <div class="py-2 row bg-light border-top shadow">
                         
 
-                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;"> {{ __('text.degree_slash_diploma_study_choice') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
+                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;"> {{ __('text.degree_slash_diploma_study_choice') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4>
                         <div class="col-sm-6 col-md-4 col-lg-4">
                             <label class="text-secondary  text-capitalize">{{ __('text.first_choice_bilang') }}<i class="text-danger text-xs">*</i></label>
                             <div class="">
@@ -302,7 +302,7 @@ $em_key = time().random_int(3000, 3099);
                     <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [4, $application->id]) }}">
                         @csrf
                         <div class="py-2 row bg-light border-top shadow">
-                            <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 3: {{ __('text.previous_higher_education_training_bilang') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
+                            <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 3: {{ __('text.previous_higher_education_training_bilang') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4>
                             <div class="col-sm-12 col-md-12 col-lg-12 py-2">
                                 <table class="border">
                                     <thead>
@@ -355,7 +355,7 @@ $em_key = time().random_int(3000, 3099);
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [4.5, $application->id]) }}">
                     @csrf
                     <div class="py-2 row bg-light border-top shadow">
-                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;">{{ __('text.word_stage') }} 4: {{ __('text.education_qualification') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
+                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;">{{ __('text.word_stage') }} 4: {{ __('text.education_qualification') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4>
                         <div class="col-sm-12 col-md-12 col-lg-12">
 
                             <div class="card my-1">
@@ -365,7 +365,7 @@ $em_key = time().random_int(3000, 3099);
                                         <thead class="text-capitalize">
                                             <tr>
                                                 <th colspan="3">
-                                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-between h5">{{ __('text.word_subjects') }} <span class="btn btn-sm btn-primary rounded" onclick="addOlResult()">add</span> </h5>
+                                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-between h5">{{ __('text.word_subjects') }} <span class="btn btn-sm btn-primary rounded" onclick="addOlResult()">@lang('text.word_add')</span> </h5>
                                                 </th>
                                             </tr>
                                             <tr>
@@ -463,7 +463,7 @@ $em_key = time().random_int(3000, 3099);
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [5, $application->id]) }}">
                     @csrf
                     <div class="py-2 row bg-light border-top shadow">
-                        {{-- <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;">{{ __('text.word_stage') }} 4: {{ __('text.education_qualification') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4> --}}
+                        {{-- <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:600;">{{ __('text.word_stage') }} 4: {{ __('text.education_qualification') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4> --}}
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             
                             <div class="card my-1">
@@ -473,7 +473,7 @@ $em_key = time().random_int(3000, 3099);
                                         <thead class="text-capitalize">
                                             <tr>
                                                 <th colspan="3">
-                                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-between h5">{{ __('text.word_subjects') }} <span class="btn btn-sm btn-primary rounded" onclick="addAlResult()">add</span> </h5>
+                                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-between h5">{{ __('text.word_subjects') }} <span class="btn btn-sm btn-primary rounded" onclick="addAlResult()">@lang('text.word_add')</span> </h5>
                                                 </th>
                                             </tr>
                                             <tr>
@@ -577,7 +577,7 @@ $em_key = time().random_int(3000, 3099);
                     @csrf
                     <div class="py-2 row text-capitalize bg-light">
                         <!-- hidden field for submiting application form -->
-                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 5: {{ __('text.preview_and_submit_form_bilang') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
+                        <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 5: {{ __('text.preview_and_submit_form_bilang') }} : <span class="text-danger">@lang('text.application_degree_headline_main', ['degree_type' => $degree->deg_name])</span></h4>
                         
                         <!-- STAGE 1 PREVIEW -->
                         <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 1: <a href="{{ route('student.application.start', [1, $application->id]) }}" class="text-white btn py-1 px-2 btn-sm">{{ __('text.view_and_or_edit_stage') }} 1</a></h4>
@@ -811,8 +811,7 @@ $em_key = time().random_int(3000, 3099);
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
                             <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
-                                <div class="py-4 text-info text-center ">You are about to make a payment of {{ $degree->amount }} CFA for application fee
-                                </div>
+                                <div class="py-4 text-info text-center ">@lang('text.application_fee_payment_note', ['amount' => $degree->amount])</div>
                                 <div class="py-3">
                                     <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
                                     <div class="">
@@ -867,7 +866,7 @@ $em_key = time().random_int(3000, 3099);
         let addAlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="al_results[${key}][subject]" required value="" placeholder="SUBJECT"></td>
+                            <td><input class="form-control text-primary"  name="al_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
                             <td>
                                 <select class="form-control text-primary"  name="al_results[${key}][grade]" required>
                                     <option value=""></option>
@@ -894,7 +893,7 @@ $em_key = time().random_int(3000, 3099);
         let addOlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="ol_results[${key}][subject]" required value="" placeholder="SUBJECT"></td>
+                            <td><input class="form-control text-primary"  name="ol_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
                             <td>
                                 <select class="form-control text-primary"  name="ol_results[${key}][grade]" required>
                                     <option value=""></option>
@@ -919,15 +918,15 @@ $em_key = time().random_int(3000, 3099);
         let addTraining = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td class="border"><input class="form-control text-primary"  name="previous_training[school][${key}]" required value="" placeholder="SCHOOL"></td>
+                            <td class="border"><input class="form-control text-primary"  name="previous_training[school][${key}]" required value="" placeholder="@lang('text.word_school')"></td>
                             <td class="border"><select class="form-control text-primary"  name="previous_training[year][${key}]" required>
                                                     <option></option>
                                                     @for($i = $___year; $i >= $___year-100; $i--)
                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                     @endfor
                                                 </select></td>
-                            <td class="border"><input class="form-control text-primary"  name="previous_training[course][${key}]" required value="" placeholder="COURSE"></td>
-                            <td class="border"><input class="form-control text-primary"  name="previous_training[certificate][${key}]" required value="" placeholder="CERTIFICATE"></td>
+                            <td class="border"><input class="form-control text-primary"  name="previous_training[course][${key}]" required value="" placeholder="@lang('text.word_course')"></td>
+                            <td class="border"><input class="form-control text-primary"  name="previous_training[certificate][${key}]" required value="" placeholder="@lang('text.word_certificate')"></td>
                             <td class="border"><span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropTraining(event)">{{ __('text.word_drop') }}</span></td>
                         </tr>`;
             $('#previous_trainings').append(html);
@@ -942,7 +941,7 @@ $em_key = time().random_int(3000, 3099);
         }
 
         let completeForm = function(){
-            let confirmed = confirm('By clicking this button, you are confirming that every information supplied is correct.');
+            let confirmed = confirm(@lang('text.complete_form_confirmation_note'));
             if(confirmed){
                 $('#application_form').submit();
             }
