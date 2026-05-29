@@ -103,7 +103,7 @@
     <div class="navbar-container w-100 ace-save-state" id="navbar-container">
         <button type="button" class="navbar-toggle menu-toggler pull-left display" id="menu-toggler"
                 data-target="#sidebar">
-            <span class="sr-only">Toggle sidebar</span>
+            <span class="sr-only text-capitalize">@lang('text.word_toggle_sidebar')</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -126,7 +126,7 @@
                         <span class="nav-user-photo fa fa-globe"></span>
                         <span>
                             <small class="text-capitalize text-white">
-                                {{\Auth::user()->campus_id ? 'Campus Admin' : 'Admin'}}
+                                {{\Auth::user()->campus_id ? __('text.campus_admin') : __('text.word_admin')}}
                             </small>
 						</span>
                     </span>
@@ -411,6 +411,14 @@
                         <b class="arrow"></b>
                     </li>
                     <li>
+                        <a href="{{route('admin.custom_applications.local.create')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.admit_locals')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
                         <a href="{{route('admin.custom_applications.create')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.admit_foreigners')}}
@@ -418,14 +426,14 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.custom_applications.switch')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.switch_program')}}
                         </a>
 
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{route('admin.custom_applications.import')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -480,8 +488,6 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="submenu">
                     <li>
                         <a href="#" class="dropdown-toggle text-capitalize">
                             <i  style="color: {{$bg1}}"class="menu-icon  fa fa-cog"></i>
@@ -501,6 +507,14 @@
 
                                 <b class="arrow"></b>
                             </li>
+                            <li>
+                                <a href="{{route('admin.applications.finance.summary')}}" class="text-capitalize">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    @lang('text.summary_report')
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -515,6 +529,14 @@
                         <a href="{{route('admin.applications.program_change.report')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.program_change_report')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.applications.entry_qualification.report')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.entry_qualification_report')}}
                         </a>
 
                         <b class="arrow"></b>

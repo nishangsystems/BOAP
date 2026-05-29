@@ -1219,6 +1219,10 @@ class ProgramController extends Controller
                     $student_matric = $prefix.$year.$suffix.$next_count;
                     // dd($student_matric);
                     if(ApplicationForm::where('matric', $student_matric)->where('id', '!=', $id)->count() == 0){
+                        $matric_exist = json_decode($this->api_service->matric_exist($student_matric))->data??0;
+                        if($matric_exist == 1){
+                            goto NEXT_MATRIC;
+                        }
                         $data['title'] = "Student Admission";
                         $data['application'] = $application;
                         $data['program'] = $program;
@@ -1316,6 +1320,7 @@ class ProgramController extends Controller
         // return $this->api_service->campuses();
         $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
+        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
 
         if($data['application']->degree_id != null){
             $data['degree'] = collect(json_decode($this->api_service->degrees())->data)->where('id', $data['application']->degree_id)->first();
@@ -1386,6 +1391,11 @@ class ProgramController extends Controller
                 
                 // dd(ApplicationForm::where('matric', $student_matric)->get());
                 if(ApplicationForm::where('matric', $student_matric)->count() == 0){
+                    // check if the matricule already exist in the main student system
+                    $matric_exist = json_decode($this->api_service->matric_exist($student_matric))->data??0;
+                    if($matric_exist == 1){
+                        goto NEXT_MATRIC;
+                    }
                     $data['title'] = "Change Student Program";
                     $data['application'] = $application;
                     $data['program'] = $program;
@@ -1394,8 +1404,6 @@ class ProgramController extends Controller
                     return view('admin.student.confirm_change_program', $data);
                 }else{
                     goto NEXT_MATRIC;
-                    $student = ApplicationForm::where('matric', $student_matric)->first();
-                    return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
                 }
             }catch(\Throwable $th){
                 return back()->with('error', 'Failed to generate matricule. '.$th->getMessage());
@@ -1564,9 +1572,25 @@ class ProgramController extends Controller
     public function finance_general_report(Request $request)
     {
         # code...
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
         $data['title'] = "General Financial Reports";
-        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->get();
+        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)->get();
         return view('admin.student.finance_general', $data);
+    }
+
+    public function finance_summary_report(Request $request){
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
+        $school_structure = $this->api_service->school_program_structure();
+        $year = Batch::find($year_id);
+        $data['school_structure'] = collect($school_structure->first());
+        $data['years'] = Batch::all();
+        $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)
+            ->get()
+            ->each(function($rec){
+                $rec->amount = optional($rec->transaction)->amount??0;
+            });
+        $data['title'] = "Summary Financial Report &Rang; ".$year->name;
+        return view('admin.student.finance_summary', $data);
     }
 
     private function sendAdmissionEmails($name, $email, $matric, $program, $campus, $fee1_dateline, $fee2_dateline, $director_name, $dean_name, $help_email, $file, $degree){
@@ -1686,10 +1710,110 @@ class ProgramController extends Controller
             $program = $programs->where('id', $request->program)->first();
             $data['program'] = $program;
             $data['title'] = ($program != null ? $program->name : '')." Admitted Students For {$batch->name} Accademic Year";
-            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('program_first_choice', $request->program)->where('admitted', 1)->select(['name', 'dob', 'pob', 'phone', 'program_first_choice', 'matric'])->distinct()->get();
+            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('program_first_choice', $request->program)->where('admitted', 1)->select(['name', 'dob', 'gender', 'pob', 'phone', 'program_first_choice', 'matric'])->distinct()->get();
         }
         // dd($data);
         return view('admin.student.admitted', $data);
 
+    }
+
+
+    // ENTRY QUALIFICATION REPORT
+    public function entry_qualification_report(Request $request){
+        $year = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        $certificates = collect(json_decode($this->api_service->certificates())->data??[]);
+        $data['certificates'] = $certificates;
+        // dd(vars: $certificates);
+        $data['title'] = "Entry Qualification Report For ".$year->name??'';
+
+        if($request->certificate_id != null){
+            $data['selected_certificate'] = $certificates->where('id', $request->certificate_id)->first();
+            $data['title'] = "Entry Qualification Report For ".$certificates->where('id', $request->certificate_id)->first()->certi??'';
+            $programs = collect(json_decode($this->api_service->programs())->data??[]);
+            $program_structure = $this->api_service->school_program_structure()?->collect('data')??null;
+            // dd($program_structure);
+            $data['report'] = ApplicationForm::where('year_id', $year->id)
+                ->where('entry_qualification', $request->certificate_id)
+                ->get()
+                ->each(function($rec)use($certificates, $programs, $program_structure){
+                    $rec->certificate_name = $certificates == null ? "" : optional(collect($certificates)->where('id', $rec->entry_qualification)->first())->certi??'';
+                    $rec->program_name = $programs->count() == 0 ? "" : $programs->where('id', $rec->program_first_choice)->first()?->name??'';
+                    $rec->region_name = $rec->_region?->region??'';
+                    $rec->school_name = $program_structure == null ? "" : $program_structure->where('id', $rec->program_first_choice)->first()->school??'';
+                });
+            // dd($data['reports']);
+            if($request->download == 'csv'){
+                $filename = 'entry_qualification_report_'.$data['selected_certificate']->certi.'_'.date('Ymd_His').'.csv';
+                $headers = array(
+                    "Content-type"        => "text/csv",
+                    "Content-Disposition" => "attachment; filename=$filename",
+                    "Pragma"              => "no-cache",
+                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                    "Expires"             => "0"
+                );
+
+                $columns = ['Name', 'Date of birth', 'Place of birth', 'Region of origin', 'Sex', 'Phone number', 'Email', 'School', 'Level', 'Option', 'Diplome'];
+                $callback = function() use($data, $columns) {
+                    $file = fopen('php://output', 'w');
+                    fputcsv($file, $columns);
+
+                    foreach ($data['report'] as $rec) {
+                        $row['Name']  = $rec->name;
+                        $row['Date of birth']    = $rec->dob;
+                        $row['Place of birth']    = $rec->pob;
+                        $row['Region of origin']    = $rec->region_name;
+                        $row['Sex']    = $rec->gender;
+                        $row['Phone number']    = $rec->phone;
+                        $row['Email']    = $rec->email;
+                        $row['School']    = $rec->school_name;
+                        $row['Level']    = $rec->level;
+                        $row['Option']    = $rec->program_name;
+                        $row['Diplome']    = $rec->certificate_name;
+                        fputcsv($file, array_values($row));
+                    }
+                    fclose($file);
+                };
+                return response()->streamDownload($callback, $filename, $headers);
+            }
+        }
+        // dd($data['reports']);
+        return view('admin.student.entry_qualification_report', $data);
+    }
+
+
+    // report of applications per degree type
+    public function degree_applications_report(Request $request){
+        // get degrees and school program structure from main system and match with admitted applications
+        $degrees = collect(json_decode($this->api_service->degrees())->data??[]);
+        
+        if($request->degree_id != null){
+            $program_structure = $this->api_service->school_program_structure()?->collect('data')??null;
+            $certificates = collect(json_decode($this->api_service->certificates())->data??[]);
+            $degree = $degrees->where('id', $request->degree_id)->first();
+            $admitted_applications = ApplicationForm::whereNotNull('matricule')->whereNotNull('admitted_at')->where('degree_id', $request->degree_id)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get()
+                ->map(function($rec)use($program_structure, $certificates){
+                    return [
+                        'name' => $rec->name,
+                        'dob' => $rec->dob,
+                        'pob' => $rec->pob,
+                        'region' => $rec->_region->region,
+                        'gender' => $rec->gender,
+                        'phone' => $rec->phone,
+                        'email' => $rec->email,
+                        'level' => $rec->level,
+                        'school' => $program_structure->where('id', $rec->program_first_choice)->first()?->school??'',
+                        'program' => $program_structure->where('id', $rec->program_first_choice)->first()?->program??'',
+                        'diplome' => $certificates->where('id', $rec->entry_qualification)->first()?->certi??''
+                    ];
+                });
+
+        }
+
+        return view('admin.student.degree_applications_report', [
+            'title' => 'Degree Applications Report',
+            'degrees' => $degrees,
+            'degree' => $degree ?? null,
+            'admitted_applications' => $admitted_applications ?? null
+        ]);
     }
 }

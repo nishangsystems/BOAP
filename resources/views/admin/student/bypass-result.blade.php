@@ -62,7 +62,7 @@
     @else
 
     <div class="my-3">
-        <input class="form-control" id="search" placeholder="Search Student by Name or Matricule" required name="student_id" />
+        <input class="form-control" id="search" placeholder="@lang('text.search_by_name_email_or_phone')" required name="student_id" />
     </div>
 
 

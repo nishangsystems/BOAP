@@ -123,8 +123,8 @@
                     </div>
                 </li>
                 <li class="grenn dropdown-modal">
-                    <a data-toggle="dropdown" class="dropdown-toggle text-white font-weight-bold" id="bg_primary_1" style="background-color: {{$bg2}};">
-                        Batch : {{ \App\Models\Batch::find(Session::get('mode', \App\Helpers\Helpers::instance()->getCurrentAccademicYear()))->name ?? ''}}
+                    <a data-toggle="dropdown" class="dropdown-toggle text-white font-weight-bold text-capitalize" id="bg_primary_1" style="background-color: {{$bg2}};">
+                        @lang('text.word_batch') : {{ \App\Models\Batch::find(Session::get('mode', \App\Helpers\Helpers::instance()->getCurrentAccademicYear()))->name ?? ''}}
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
 
@@ -141,32 +141,32 @@
                         <img class="nav-user-photo" src="{{asset('assets/images/avatars/user.jpg')}}"
                              alt="Jason's Photo"/>
                         <span>
-						<small>Welcome</small>
+						<small class="text-capitalize">@lang('text.word_welcome')</small>
                          {{auth('student')->user()->name}}
 						</span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
-                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close text-capitalize">
                         <li>
                             @if(auth('student')->user() == null)
                                 @if(auth('student')->user()->isHod || auth('student')->user()->isTeacher)
                                     <a href="{{route('user.home')}}"><i
-                                            class="ace-icon fa fa-user"></i>Profile</a>
+                                            class="ace-icon fa fa-user"></i>@lang('text.word_profile')</a>
                                 @elseif(auth('student')->user()->isAdmin)
                                     <a href="{{route('admin.home')}}"><i
-                                            class="ace-icon fa fa-user"></i>Profile</a>
+                                            class="ace-icon fa fa-user"></i>@lang('text.word_profile')</a>
                                 @endif
                             @else
                                 <a href="{{route('student.home')}}"><i
-                                        class="ace-icon fa fa-user"></i>Profile</a>
+                                        class="ace-icon fa fa-user"></i>@lang('text.word_profile')</a>
                             @endif
                         </li>
-                        <li>
+                        <li class="text-capitalize">
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
 												document.getElementById('logout-form').submit();">
                                 <i class="ace-icon fa fa-power-off"></i>
-                                Logout
+                                @lang('text.word_logout')
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -279,13 +279,13 @@
         <div class="main-content-inner">
 
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
+                <ul class="breadcrumb text-capitalize">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
+                        <a href="#">{{__('text.word_home')}}</a>
                     </li>
-                    <li class="active">Student Dashboard</li>
-                    <li class="active"> Full Name: <b style="color: #e30000">{{auth('student')->user()->name}}</b></li>
+                    <li class="active">@lang('text.student_dashboard')</li>
+                    <li class="active"> @lang('text.full_name'): <b style="color: #e30000">{{auth('student')->user()->name}}</b></li>
                     <li class="active text-capitalize"> {{__('text.word_matricule')}}: <b style="color: #e30000">{{auth('student')->user()->matric}}</b></li>
 
                 </ul><!-- /.breadcrumb -->
@@ -295,7 +295,7 @@
                 <div>
                     <div id="user-profile-1" class="user-profile row">
                         <div style="width:100%; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-1">
-                            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">{{ $help_contacts }}</span></span>
+                            <span class="d-block w-100 text-danger text-center">@lang('text.form_submission_reminder') <span class="text-dark">@lang('text.help_line', ['contacts' => $help_contacts])</span></span>
                             {{-- <span class="d-block w-100 text-danger text-center"><span class="text-primary">MOMO NUMBER -</span><span class="text-secondary"> NUMÉRO MOMO</span> :6 71 98 92 92 | MOMO NAME - <span class="text-secondary">NON SUR MOMO</span> :<span class="text-dark">EMELIE BERINYUY ASHUMBENG</span> | UNDERGRADUATE APPLICATION FEE - :<span class="text-primary">5,000 XAF</span> BACHELOR APPLICATION FEE - :<span class="text-primary">10,000 XAF </span> MASTERS APPLICATION FEE - :<span class="text-primary">20,000 XAF </span></span> --}}
                         </div>
                     </div>

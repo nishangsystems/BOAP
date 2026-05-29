@@ -172,12 +172,15 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('admission_letter/{id?}', [ProgramController::class, 'admission_letter'])->name('admission_letter');
         Route::get('program/change/report', [ProgramController::class, 'program_change_report'])->name('program_change.report');
         Route::get('program/change/{id?}', [ProgramController::class, 'application_form_change_program'])->name('change_program');
+        Route::get('certification/entry/report', [ProgramController::class, 'entry_qualification_report'])->name('entry_qualification.report');
+        Route::get('degree/report', [ProgramController::class, 'degree_applications_report'])->name('degree.report');
         Route::post('program/change/{id?}', [ProgramController::class, 'change_program']);
         Route::post('change_program/{id?}', [ProgramController::class, 'change_program_save'])->name('_change.program');
         Route::get('by_program/{id?}', [ProgramController::class, 'applications_per_program'])->name('by_program');
         Route::get('by_degree/{id?}', [ProgramController::class, 'applications_per_degree'])->name('by_degree');
         Route::get('by_campus/{id?}', [ProgramController::class, 'applications_per_campus'])->name('by_campus');
         Route::get('finance/general', [ProgramController::class, 'finance_general_report'])->name('finance.general');
+        Route::get('finance/summary', [ProgramController::class, 'finance_summary_report'])->name('finance.summary');
 
         Route::get('admitted', [ProgramController::class, 'admitted_students'])->name('admitted_students');
     });
@@ -207,6 +210,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::prefix('custom/applications')->name('custom_applications.')->group(function(){
         Route::get('', [CustomApplicationController::class, 'index'])->name('index');
+        Route::get('local/create', [CustomApplicationController::class, 'create_local'])->name('local.create');
+        Route::post('local/create', [CustomApplicationController::class, 'store_local']);
         Route::get('create', [CustomApplicationController::class, 'create'])->name('create');
         Route::post('create', [CustomApplicationController::class, 'store']);
         Route::get('switch', [CustomApplicationController::class, 'switch_program'])->name('switch');
