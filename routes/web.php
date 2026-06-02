@@ -227,7 +227,7 @@ Route::get('program{program_id}levels', [Controller::class, 'program_levels'])->
 
 Route::prefix('student')->name('student.')->middleware('isStudent')->middleware('plcharge')->group(function () {
     // Route::get('', 'Student\HomeController@index')->name('home');
-    Route::get('', 'Student\HomeController@all_programs')->name('home');
+    Route::get('', 'Student\HomeController@index')->name('home');
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
     Route::get('subject', 'Student\HomeController@subject')->name('subject');

@@ -52,10 +52,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        if(auth('student')->user()->applicationForms()->whereNotNull('transaction_id')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
-            return redirect(route('student.programs.index'));
-        }
-        return redirect(route('student.application.start', 0));
+        $campuses = collect(json_decode($this->api_service->campuses())->data??[]);
+        // dd($campuses);
+        $data['campuses'] = $campuses;
+        return view('student.dashboard', $data);
     }
 
     public function fee()
@@ -134,7 +134,7 @@ class HomeController extends Controller
     {
         # code...
         if(
-            Students::where([
+            \App\Models\Students::where([
                 'email' => $request->email, 'phone' => $request->phone
             ])->count() > 0 && (auth('student')->user()->phone != $request->phone || auth('student')->user()->email != $request->email)
         ){
@@ -142,7 +142,7 @@ class HomeController extends Controller
         }
         
         $data = $request->all();
-        Students::find(auth('student')->id())->update($data);
+        \App\Models\Students::find(auth('student')->id())->update($data);
         return redirect(route('student.home'))->with('success', __('text.word_Done'));
     }
  
@@ -153,12 +153,23 @@ class HomeController extends Controller
     public function all_programs (Request $request)
     {
         # code...
-        $data['title'] = "Our programs";
-        $data['campuses'] = json_decode($this->api_service->campuses())->data??[];
-        foreach ($data['campuses'] as $key => $value) {
-            # code...
-            $data['campuses'][$key]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($value->id))->data)->unique()->groupBy('school');
+        $form = ApplicationForm::where(['student_id'=>auth('student')->id(), 'year_id'=>Helpers::instance()->getCurrentAccademicYear()])->first();
+        if($request->campus_id != null){
+            if($form != null){
+                $form->campus_id = $request->campus_id;
+                $form->save();
+            }
+        }else{
+            if($form == null || $form->campus_id == null){
+                return redirect(route('student.home'))->with('error', 'Please select a campus to view available programs');
+            }
         }
+        $data['campuses'] = collect(json_decode($this->api_service->campuses())->data??[])->where('id', $form->campus_id)->keyBy('id')->all();
+        // dd($data['campuses']);
+        $data['campus_id'] = $form->campus_id;
+        $data['title'] = "Our programs &Rang; ".(collect($data['campuses'])->where('id', $form->campus_id)->first()->name??"");
+        $data['campuses'][$form->campus_id]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($form->campus_id))->data)->unique()->groupBy('school');
+        
         // dd($data);
         return view('student.online.programs', $data);
     }

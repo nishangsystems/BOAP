@@ -1138,4 +1138,9 @@ return [
     'word_module' => 'module',
     'word_toggle_sidebar' => 'toggle sidebar',
     'word_totals' => 'totals',
+    'application_open_announcement' => 'Application into BIAKA University Institute open For :year, From :start_date to :end_date',
+    'application_scheduled_announcement' => 'Application into BIAKA University Institute opening For :year From :start_date to :end_date',
+    'application_closed_announcement' => 'Application into BIAKA University Institute closed For :year',
+    'application_unscheduled_announcement' => 'Application into BIAKA University Institute has not been opened For :year',
+    'view_programs' => 'view programs',
 ];

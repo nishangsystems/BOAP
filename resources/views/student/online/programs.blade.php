@@ -2,7 +2,7 @@
 @section('section')
     <div class="w-100">
         <div id="accordion" class="panel-group">
-            @foreach (($campuses[0]->programs) ?? [] as $key => $school)                    
+            @foreach (($campuses[$campus_id]->programs) ?? [] as $key => $school)                    
                 <table class="border">
                     <thead><tr class="text-capitalize border-bottom">
                         <th class="border-left border-right">{{ __('text.sn') }}</th>

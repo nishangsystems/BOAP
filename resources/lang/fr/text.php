@@ -1132,4 +1132,9 @@ return [
     'word_module' => 'module',
     'word_toggle_sidebar' => 'basculer la barre latérale',
     'word_totals' => 'totaux',
+    'application_open_announcement' => 'Les candidatures à l\'Institut Universitaire BIAKA sont ouvertes pour l\'année :year, du :start_date au :end_date',
+    'application_scheduled_announcement' => '"Ouverture des candidatures à l\'Institut Universitaire BIAKA pour l\'année :year, du :start_date au :end_date"',
+    'application_closed_announcement' => 'Les candidatures à l\'Institut Universitaire BIAKA sont closes pour l\'année :year',
+    'application_unscheduled_announcement' => 'Les candidatures à l\'Institut Universitaire BIAKA ne sont pas encore ouvertes pour l\'année :year',
+    'view_programs' => 'voir les programmes',
 ];

@@ -315,7 +315,7 @@
 
 
                     <div class="mb-4 mx-3">
-                        <h4 class="font-weight-bold">{{ $title ?? '' }}</h4>
+                        <h4 class="font-weight-bold">{!! $title ?? '' !!}</h4>
                     </div>
                     @yield('section')
                 </div>

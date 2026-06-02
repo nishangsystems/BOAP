@@ -15,7 +15,7 @@ $em_key = time().random_int(3000, 3099);
                     @csrf
                     <div class="px-5 py-5 border-top shadow bg-light">
                         <div class="row w-100">
-                            <div class="col-sm-12 col-md-6">
+                            {{-- <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.word_campus') }}</span></label>
                                 <select name="campus_id" class="form-control text-primary"  oninput="setDegreeTypes(event)">
                                     <option>{{ __('text.select_campus') }}</option>
@@ -23,9 +23,9 @@ $em_key = time().random_int(3000, 3099);
                                         <option selected value="{{ $campus->id }}" {{ $application->campus_id == $campus->id ? 'selected' : '' }}>{{ $campus->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            {{-- <input type="hidden" name="campus_id" value="{{ $campuses[0]->id }}"> --}}
-                            <div class="col-sm-12 col-md-6">
+                            </div> --}}
+                            <input type="hidden" name="campus_id" value="{{ $application->campus_id }}">
+                            <div class="col-sm-12 col-md-12">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.applying_for_phrase') }}</span><i class="text-danger text-xs">*</i></label>
                                 <select name="degree_id" class="form-control text-primary"  id="degree_types">  
                                     @if($application->degree_id != null)
