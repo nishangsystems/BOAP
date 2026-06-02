@@ -107,17 +107,18 @@
 	</head>
 
 	<body class="login-layout" id="frame">
-		<div style="display: flex; justify-content: flex-end;">
-			<span style=" display: inline-flex; font-size: 1.85rem; font-weight: bold; text-transform: capitalize;" class="fa fa-language">
-				@if(app()->getLocale() == 'en')
-					<a style="padding: 0.5rem; color: {{ $bg1 }}; border-radius: 0.3rem; margin-inline: 0.5rem;" href="{{ route('lang.switch', 'fr') }}">FR</a>
-				@else
-					<a style="padding: 0.5rem; color: {{ $bg1 }}; border-radius: 0.3rem; margin-inline: 0.5rem;" href="{{ route('lang.switch', 'en') }}">EN</a>
-				@endif
-			</span>
-		</div>
 		<div class="container-fluid text-center py-2 h3 text-uppercase font-semibild h4 blink" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></div>
+		
 		<div class="main-container px-5" style="padding-inline: 2rem;">
+			<div style="display: flex; justify-content: center;">
+				<span style=" display: inline-flex; font-size: 1.85rem; font-weight: bold; text-transform: capitalize;" class="fa fa-language">
+					@if(app()->getLocale() == 'en')
+						<a style="padding: 0.5rem; color: {{ $bg1 }}; border-radius: 0.3rem; margin-inline: 0.5rem;" href="{{ route('lang.switch', 'fr') }}">FR</a>
+					@else
+						<a style="padding: 0.5rem; color: {{ $bg1 }}; border-radius: 0.3rem; margin-inline: 0.5rem;" href="{{ route('lang.switch', 'en') }}">EN</a>
+					@endif
+				</span>
+			</div>
 			<div class="w-100 text-center" style="padding: 0.2rem; margin-block: 0.1rem;">
 				<h4> <span style="color: {{ $bg3 }}; text-shadow: -1px -1px 0 #1a55c4, 1px -1px 0 #1a55c4, -1px 1px 0 #1a55c4, 1px 1px 0 #1a55c4; font-weight: bolder; font-size: large; transform: skew(12deg, 17deg) !important;">{{__('text.stlo_portal')}}</span></h4>
 			</div>
@@ -335,6 +336,7 @@
 				</div><!-- /.row -->
 			</div><!-- /.main-content -->
 		</div><!-- /.main-container -->
+		
 		@if($help_contacts != null)
 			<div class="alert alert-light text-center text-uppercase margin-top-5 h4"><b><i>@lang('text.help_line', ['contacts' => $help_contacts])</i></b></div>
 		@endif
