@@ -1498,15 +1498,15 @@ class ProgramController extends Controller
         $data['totals'] = collect($progs)->groupBy('school')->map(function($sch, $key){
             // dd($key);
             $program_ids = collect($sch)->pluck('program_id')->toArray();
-            $dt['applicants'] = ApplicationForm::whereIn('program_first_choice', $program_ids)->whereNotNull('transaction_id')->count();
+            $dt['applicants'] = ApplicationForm::whereIn('program_first_choice', $program_ids)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->count();
             $dt['depts'] = $sch->groupBy('department')->map(function($dept, $p_key){
                 $d_program_ids = $dept->pluck('program_id')->toArray();
                 // dd($dept);
-                $dt['applicants'] = ApplicationForm::whereIn('program_first_choice', $d_program_ids)->whereNotNull('transaction_id')->count();
+                $dt['applicants'] = ApplicationForm::whereIn('program_first_choice', $d_program_ids)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->count();
                 $dt['progs'] = $dept->groupBy('program')->map(function($prog, $p_key){
                     $d_program_ids = $prog->pluck('program_id')->toArray();
                     // dd($prog);
-                    $prog['applicants'] = ApplicationForm::whereIn('program_first_choice', $d_program_ids)->whereNotNull('transaction_id')->count();
+                    $prog['applicants'] = ApplicationForm::whereIn('program_first_choice', $d_program_ids)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->count();
                     return $prog->toArray();
                 });
                 return $dt;
@@ -1533,9 +1533,9 @@ class ProgramController extends Controller
             $data['title'] = $degs->where('id', $degree_id)->first()->deg_name.' Applications';
             $data['progs'] = $progs;
             if($campus_id != null){
-                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->whereNotNull('transaction_id')->where('campus_id', $campus_id)->get();
+                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->where('campus_id', $campus_id)->get();
             }else{
-                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->whereNotNull('transaction_id')->get();
+                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->get();
             }
             return view('admin.student.degree_applications', $data);
         }
@@ -1549,12 +1549,12 @@ class ProgramController extends Controller
         if($campus_id == null){
             $campus = auth()->user()->campus_id;
             if($campus == null){
-                $data['campuses'] = ApplicationForm::select(['campus_id', DB::raw('COUNT(id) as applicants')])->whereNotNull('transaction_id')->groupBy('campus_id')->get()->map(function($row)use($campuses){
+                $data['campuses'] = ApplicationForm::select(['campus_id', DB::raw('COUNT(id) as applicants')])->where('year_id', $this->current_year)->whereNotNull('transaction_id')->groupBy('campus_id')->get()->map(function($row)use($campuses){
                     $row->campus_name = $campuses->where('id', $row->campus_id)->first()->name??'';
                     return $row;
                 });
             }else{
-                $data['campuses'] = ApplicationForm::select(['campus_id', DB::raw('COUNT(id) as applicants')])->whereNotNull('transaction_id')->where('campus_id', $campus)->groupBy('campus_id')->get()->map(function($row)use($campuses){
+                $data['campuses'] = ApplicationForm::select(['campus_id', DB::raw('COUNT(id) as applicants')])->where('year_id', $this->current_year)->whereNotNull('transaction_id')->where('campus_id', $campus)->groupBy('campus_id')->get()->map(function($row)use($campuses){
                     $row->campus_name = $campuses->where('id', $row->campus_id)->first()->name??'';
                     return $row;
                 });
@@ -1562,7 +1562,7 @@ class ProgramController extends Controller
             $data['title'] = "Applications per Campus";
         }else{
             $data['title'] = 'Applications for '.$campuses->where('id', $campus_id)->first()->name??null;
-            $data['appls'] = ApplicationForm::where('campus_id', $campus_id)->whereNotNull('transaction_id')->orderBy('name')->get();
+            $data['appls'] = ApplicationForm::where('campus_id', $campus_id)->where('year_id', $this->current_year)->whereNotNull('transaction_id')->orderBy('name')->get();
             $data['progs'] = collect(json_decode($this->api_service->programs())->data);
         }
         // dd($data);
