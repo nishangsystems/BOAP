@@ -842,7 +842,7 @@ $em_key = time().random_int(3000, 3099);
 
         $(document).ready(function(){
             console.log('{{ $application->region }}');
-            if("{{ $application->degree_id }}" != null){
+            if("{{ $application->campus_id }}" != null){
                 loadCampusDegrees('{{ $application->campus_id }}');
             }
             if("{{ $application->division }}" != null){
@@ -852,7 +852,7 @@ $em_key = time().random_int(3000, 3099);
                 setLevels("{{ $application->program_first_choice }}");
             }
 
-            loadCampusDegrees("{{ $campuses[0]->id }}");
+            // loadCampusDegrees("{{ $campuses[0]->id }}");
         });
         // momo preview generator
         let momoPreview = function(event){

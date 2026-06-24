@@ -403,7 +403,7 @@ class HomeController extends Controller
             // dd('check point');
             $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
             $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
-            $pay_channel = $tranzak_credentials->count() > 0 ? 'tranzak' : 'momo';
+            $pay_channel = !empty($tranzak_credentials) ? 'tranzak' : 'momo';
             switch($pay_channel){
                 case 'momo':
 
