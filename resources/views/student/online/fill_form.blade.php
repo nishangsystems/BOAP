@@ -941,7 +941,7 @@ $em_key = time().random_int(3000, 3099);
         }
 
         let completeForm = function(){
-            let confirmed = confirm(@lang('text.complete_form_confirmation_note'));
+            let confirmed = confirm("@lang('text.complete_form_confirmation_note')");
             if(confirmed){
                 $('#application_form').submit();
             }
