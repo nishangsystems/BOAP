@@ -198,6 +198,10 @@ class HomeController extends Controller
                 $application->save();
             }
 
+            if($application->campus_id == null){
+                return redirect()->route('student.home');
+            }
+
             if ($request->_prg != null) {
                 # code...
                 $application->program_first_choice = $request->_prg;
