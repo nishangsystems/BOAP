@@ -4,6 +4,7 @@
         <form method="post">
             @csrf
             <input type="hidden" name="matric" value="{{ $matricule }}">
+            <input type="hidden" name="program_status" value="{{ $program_status??'ON-CAMPUS' }}">
             <div class="col-sm-12 col-md-11 col-lg-9 mx-auto">
                 <div class="row text-capitalize">
                     <div class="col-sm-8 col-md-5 col-lg-5">

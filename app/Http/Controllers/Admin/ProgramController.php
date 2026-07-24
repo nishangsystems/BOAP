@@ -1226,6 +1226,9 @@ class ProgramController extends Controller
                         $data['title'] = "Student Admission";
                         $data['application'] = $application;
                         $data['program'] = $program;
+                        if($request->foreign == 1){
+                            $data['program_status'] = 'INTERNATIONAL';
+                            }
                         $data['matricule'] = $student_matric;
                         $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
                         // dd($data);
@@ -1272,7 +1275,8 @@ class ProgramController extends Controller
             'region'=>$application->_region->name??null,
             'fee_payer_tel'=>$application->fee_payer_tel??null, 
             'division'=>$application->_division->name??null,
-            'level'=>$application->level??null
+            'level'=>$application->level??null,
+            'program_status' => $request->program_status??'ON-CAMPUS'
         ];
         $resp = json_decode($this->api_service->store_student($student_data))->data??null;
         // dd($resp);

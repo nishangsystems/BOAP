@@ -29,33 +29,6 @@ Route::get('/clear', function () {
 
 });
 
-// test mail sender
-// Route::get('send_sms', [Controller::class, 'sendSMS']/*function(){
-//     // $mailer = new MailService();
-//     // $subject = "Form Submission Notification";
-//     // $text = "Your application form has been submitted successfully";
-//     // $data = ['name'=>"GERMANUS K", 'email'=>"germanuskeming@gmail.com"];
-//     // if(@mail($data['email'], $subject, $text)){
-//     //     return "success";
-//     // }else{return "failed";}
-//     // $mailer->sendPlainMail($subject, $text, $data);
-
-//     // $basic  = new \Vonage\Client\Credentials\Basic("8d8bbcf8", "04MLvso1he1b8ANc");
-//     // $client = new \Vonage\Client($basic);
-
-//     // $response = $client->sms()->send(
-//     //     new \Vonage\SMS\Message\SMS("237699131895", '+237672908239', 'A text message sent using the Nexmo SMS API')
-//     // );
-    
-//     // $message = $response->current();
-    
-//     // if ($message->getStatus() == 0) {
-//     //     echo "The message was sent successfully\n";
-//     // } else {
-//     //     echo "The message failed with status: " . $message->getStatus() . "\n";
-//     // }
-// }*/);
-
 Route::get('send_admission_sms', [Controller::class, 'sendAdmissionSMS']);
 
 Route::get('set_local/{lang}', [Controller::class, 'set_local'])->name('lang.switch');
