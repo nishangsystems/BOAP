@@ -1143,4 +1143,6 @@ return [
     'application_closed_announcement' => 'Application into BIAKA University Institute closed For :year',
     'application_unscheduled_announcement' => 'Application into BIAKA University Institute has not been opened For :year',
     'view_programs' => 'view programs',
+    'notify_applicants' => 'notify applicants',
+    ''
 ];

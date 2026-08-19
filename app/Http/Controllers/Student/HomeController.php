@@ -361,7 +361,7 @@ class HomeController extends Controller
             }
             // dd($phone_number);
             $message="Application into BIAKA UNIVERSITY INSTITUTE submitted successfully.";
-            $sent = $this->sendSMS($phone_number, $message);
+            $sent = $this->tranzak_sms_service->send([$phone_number], $message);
             return redirect(route('student.application.form.download', ['id'=>$application_id]));
         }
 

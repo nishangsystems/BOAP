@@ -11,6 +11,7 @@ use App\Models\Region;
 use App\Models\Students;
 use App\Models\User;
 use App\Models\Wage;
+use App\Services\TranzakSMSService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -33,11 +34,13 @@ class Controller extends BaseController
 
     var $current_accademic_year;
     public $api_service;
-    public function __construct(ApiService $apiService)
+    public $tranzak_sms_service;
+    public function __construct(ApiService $apiService, TranzakSMSService $tranzakSMSService)
     {
         # code...
         $this->api_service = $apiService;
         $this->current_accademic_year = Helpers::instance()->getCurrentAccademicYear();
+        $this->tranzak_sms_service = $tranzakSMSService;
         ini_set('max_execution_time', 360);
     }
 

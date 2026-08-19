@@ -130,6 +130,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('admission/admit/{id}', [ProgramController::class, 'admit_student'])->name('admission.admit');
     Route::get('admission/show/{id}', [ProgramController::class, 'application_details'])->name('admission.show');
     Route::get('applications', [ProgramController::class, 'applications'])->name('applications.all');
+    Route::get('applicants/notify/sms', [AdminHomeController::class, 'notify_applicants_by_sms'])->name('applicants.sms.notify');
+    Route::post('applicants/notify/sms', [AdminHomeController::class, 'notify_applicants_by_sms_send']);
     Route::name('applications.')->prefix('applications')->group(function(){
         Route::get('print_form/{id?}', [ProgramController::class, 'print_application_form'])->name('print_form');
         Route::get('edit/{id?}', [ProgramController::class, 'edit_application_form'])->name('update');
