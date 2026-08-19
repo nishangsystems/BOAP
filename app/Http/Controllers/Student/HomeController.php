@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Services\ApiService;
 use App\Http\Services\AppService;
+use App\Services\TranzakSMSService;
 use App\Models\ApplicationForm;
 use App\Models\Batch;
 use App\Models\Config;
@@ -28,6 +29,7 @@ class HomeController extends Controller
     private $years;
     private $batch_id;
     protected $appService;
+    public  $tranzak_sms_service;
     private $select = [
         'students.id as student_id',
         'collect_boarding_fees.id',
@@ -111,7 +113,7 @@ class HomeController extends Controller
     }
 
 
-    public function __construct( ApiService $service, AppService $appService)
+    public function __construct( ApiService $service, AppService $appService, TranzakSMSService $tranzakSMSService)
     {
         // $this->middleware('isStudent');
         // $this->boarding_fee =  BoardingFee::first();
@@ -120,6 +122,7 @@ class HomeController extends Controller
         $this->years = Batch::all();
         $this->api_service = $service;
         $this->appService = $appService;
+        $this->tranzak_sms_service = $tranzakSMSService;
     }
 
 
