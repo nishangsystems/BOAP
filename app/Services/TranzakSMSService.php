@@ -37,9 +37,13 @@ class TranzakSMSService{
                 if($response->status() == 200){
                     // cache token and token expirationtot session
                     $data = $response->collect('data');
-                    cache([$this->cache_api_token_key => $data['token']]);
-                    cache([$this->cache_api_token_key.'_expiry'=>Carbon::createFromTimestamp(time() + $data['expiresIn'])]);
+                    if(array_key_exists('token', $data->toArray())){
+                        cache([$this->cache_api_token_key => $data['token']??null]);
+                        cache([$this->cache_api_token_key.'_expiry'=>Carbon::createFromTimestamp(time() + $data['expiresIn']??0)]);
+                    }else
+                        goto ERROR;
                 }else{
+                    ERROR:
                     throw new Exception("Error authentication SMS servers. Contact service provider if this persists");
                 }
             }
