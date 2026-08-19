@@ -15,10 +15,10 @@ class TranzakSMSService{
     private $cache_api_token_key;
     public function __construct(){
 
-        $this->api_key = config('tranzak_sms.nishang_sms_api_key');
-        $this->app_id = config('tranzak_sms.nishang_sms_app_id');
-        // $this->api_key = config('tranzak_sms.biaka_sms_api_key');
-        // $this->app_id = config('tranzak_sms.biaka_sms_app_id');
+        // $this->api_key = config('tranzak_sms.nishang_sms_api_key');
+        // $this->app_id = config('tranzak_sms.nishang_sms_app_id');
+        $this->api_key = config('tranzak_sms.biaka_sms_api_key');
+        $this->app_id = config('tranzak_sms.biaka_sms_app_id');
         $this->cache_api_token_key = config('tranzak_sms.sms_token');
 
         try {
@@ -80,8 +80,8 @@ class TranzakSMSService{
         // Assumed there is a valid api token
         // Moving to performing the payment request proper
         $headers = ['Authorization'=>'Bearer '.cache($this->cache_api_token_key)];
-        $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'msg'=>$message, 'senderId'=>config('tranzak_sms.nishang_sms_sender_id')];
-        // $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'msg'=>$message, 'senderId'=>config('tranzak_sms.biaka_sms_sender_id')];
+        // $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'msg'=>$message, 'senderId'=>config('tranzak_sms.nishang_sms_sender_id')];
+        $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'msg'=>$message, 'senderId'=>config('tranzak_sms.biaka_sms_sender_id')];
         // dd($request_data);
         $_response = Http::withHeaders($headers)->post(config('tranzak_sms.base').config('tranzak_sms.send_sms'), $request_data);
         // dd($_response->collect());
@@ -105,7 +105,7 @@ class TranzakSMSService{
         // Assumed there is a valid api token
         // Moving to performing the payment request proper
         $headers = ['Authorization'=>'Bearer '.cache($this->cache_api_token_key)];
-        $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'templateId'=>config('tranzak_sms.otp_templates.default'), 'params'=>[$otp], 'senderId'=>config('tranzak_sms.nishang_sms_sender_id')];
+        $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'templateId'=>config('tranzak_sms.otp_templates.default'), 'params'=>[$otp], 'senderId'=>config('tranzak_sms.biaka_sms_sender_id')];
         // $request_data = ['phones'=>implode(',', $this->custom_trim([$phones])), 'msg'=>$message, 'senderId'=>config('tranzak_sms.biaka_sms_sender_id')];
         // dd($request_data);
         $_response = Http::withHeaders($headers)->post(config('tranzak_sms.base').config('tranzak_sms.send_otp'), $request_data);
