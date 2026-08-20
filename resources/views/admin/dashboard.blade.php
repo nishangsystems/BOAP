@@ -10,7 +10,7 @@ $user = \Auth()->user()
     <table class="table">
         <thead class="text-capitalize">
             <tr class="border-y">
-                <th colspan="6" class="text-center header">{{ $title ?? 'Fee Settings' }}</th>
+                <th colspan="6" class="text-center header">{{ $title ?? __('text.fee_settings') }}</th>
             </tr>
             <tr class="border-y">
                 <th>#</th>
@@ -28,9 +28,9 @@ $user = \Auth()->user()
             @endphp
             
             @foreach ($data as $school)
-                <tr class="border-y text-center"><td colspan="7"> <span class="heading"> SCHOOL OF {{ ($school->first()->first()->first()['school']) ?? '----' }}</span> </td></tr>
+                <tr class="border-y text-center"><td colspan="7"> <span class="heading"> @lang('text.SCHOOL_OF') {{ ($school->first()->first()->first()['school']) ?? '----' }}</span> </td></tr>
                 @foreach ($school as $department)
-                    <tr class="border-y text-center"><td colspan="7"> <span class="heading"> DEPARTMENT OF {{ ($department->first()->first()['department']) ?? '----' }}</span> </td></tr>
+                    <tr class="border-y text-center"><td colspan="7"> <span class="heading"> @lang('text.DEPARTMENT_OF') {{ ($department->first()->first()['department']) ?? '----' }}</span> </td></tr>
                     @foreach ($department as $program)
                         <tr class="border-y text-center">
                             <td colspan="6"> <span class="heading">{{ ($program->first()['program']) ?? '----' }}</span> </td>
@@ -45,9 +45,9 @@ $user = \Auth()->user()
                                 <td class="border">{{ $class['first_instalment'] }}</td>
                                 <td class="border">{{ $class['registration']??'----' }}</td>
                                 <td class="border">
-                                    <span> bank: {{ $class['bank_name'] }}</span><br>
-                                    <span> account name: {{ $class['bank_account_name'] }}</span><br>
-                                    <span> account number: {{ $class['bank_account_number'] }}</span>
+                                    <span> @lang('text.word_bank'): {{ $class['bank_name'] }}</span><br>
+                                    <span> @lang('text.word_account_name'): {{ $class['bank_account_name'] }}</span><br>
+                                    <span> @lang('text.word_account_number') : {{ $class['bank_account_number'] }}</span>
                                 </td>
                             </tr>
                         @endforeach

@@ -28,14 +28,14 @@ class CustomLoginController extends Controller
         $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
         if($admission != null){
             if(now()->isBetween($admission->start_date, $admission->end_date)){
-                $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = __('text.application_open_announcement', ['year' => ($year->name??''), 'start_date' => $admission->start_date->format('d/m/Y'), 'end_date' => $admission->end_date->format('d/m/Y')]);
             }elseif(now()->isBefore($admission->start_date)){
-                $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = __('text.application_scheduled_announcement', ['year' => ($year->name??''), 'start_date' => $admission->start_date->format('d/m/Y'), 'end_date' => $admission->end_date->format('d/m/Y')]);
             }else{
-                $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+                $data['announcement'] = __('text.application_closed_announcement', ['year' => ($year->name??'')]);
             }
         }else {
-            $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+            $data['announcement'] = __('text.application_unscheduled_announcement', ['year' => ($year->name??'')]);
         }
         // dd($data);
         return view('auth.login', $data);
@@ -171,7 +171,23 @@ class CustomLoginController extends Controller
         // return $request->all();
         if( (Auth::guard('student')->attempt(['phone'=>$request->username,'password'=>$request->password], $request->remember))){
             // return "Spot 1";
-            return redirect()->intended(route('student.home'));
+            $student = auth('student')->user();
+            $form = \App\Models\ApplicationForm::where('student_id', $student->id)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
+            if($form == null || $form->campus_id == null){
+                $request->session()->flash('message', 'Please select a campus to view available programs');
+                return redirect()->intended(route('student.home'));
+            }elseif($form->degree_id == null){
+                 $request->session()->flash('message', 'Please select a program to proceed with your application');
+                return redirect()->intended(route('student.programs.index'));
+            }else{
+                if($form->submitted == 0){
+                    return redirect()->intended(route('student.application.start', ['step' => 0]));
+                }elseif($form->admitted == 0){
+                    return redirect()->intended(route('student.application.form.download'));
+                }else{
+                    return redirect()->intended(route('student.application.admission_letter.download'));
+                }
+            }
         }else{
             if( Auth::attempt(['username'=>$request->username,'password'=>$request->password]) ||  Auth::attempt(['matric'=>$request->username,'password'=>$request->password])){
                 return redirect()->route('admin.home')->with('success','Welcome to Admin Dashboard '.Auth::user()->name);

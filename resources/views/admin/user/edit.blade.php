@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="form-group @error('name') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Full Name (required)</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_full_name') <span class="text-danger">*</label>span></label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="name" value="{{old('name', $user->name)}}" type="text" required />
                         @error('name')
@@ -29,7 +29,7 @@
 
 
                 <div class="form-group @error('email') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Username (required)</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_username') <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <input class=" form-control" readonly name="email" value="{{old('email', $user->email)}}" type="text" required />
                         @error('email')
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="form-group @error('phone') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Phone</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_phone')</label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="phone" value="{{old('phone', $user->phone)}}" type="text" required />
                         @error('phone')
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="form-group @error('address') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Address</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_address')</label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="address" value="{{old('address', $user->address)}}" type="text" required />
                         @error('address')
@@ -59,12 +59,12 @@
                 </div>
 
                 <div class="form-group @error('gender') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Gender</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_gender')</label>
                     <div class="col-lg-10">
                         <select class="form-control" name="gender">
-                            <option selected disabled>Select Gender</option>
-                            <option {{old('gender', $user->gender) == 'male'?'selected':''}} value="male">Male</option>
-                            <option {{old('gender', $user->gender) == 'female'?'selected':''}} value="female">Female</option>
+                            <option selected disabled>@lang('text.word_gender')</option>
+                            <option {{old('gender', $user->gender) == 'male'?'selected':''}} value="male">@lang('text.word_male')</option>
+                            <option {{old('gender', $user->gender) == 'female'?'selected':''}} value="female">@lang('text.word_female')</option>
                         </select>
                         @error('gender')
                         <span class="invalid-feedback">{{ $message }}</span>
@@ -73,12 +73,12 @@
                 </div>
 
                 <div class="form-group @error('type') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2 text-capitalize">Type</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_type')</label>
                     <div class="col-lg-10">
                         <select class="form-control" name="type">
                             <option selected disabled>{{__('text.select_type')}}</option>
-                            <option {{old('type', $user->type) == 'teacher'?'selected':''}} value="teacher">Teacher</option>
-                            <option {{old('type', $user->type) == 'admin'?'selected':''}} value="admin">Admin</option>
+                            <option {{old('type', $user->type) == 'teacher'?'selected':''}} value="teacher">@lang('text.word_teacher')</option>
+                            <option {{old('type', $user->type) == 'admin'?'selected':''}} value="admin">@lang('text.word_admin')</option>
                         </select>
                         @error('type')
                         <span class="invalid-feedback">{{ $message }}</span>
@@ -95,7 +95,7 @@
                                 <option value="{{$campus->id}}" {{$campus->id == \App\Models\User::find($user->id)->campus_id ? 'selected' : ''}}>{{$campus->name}}</option>
                             @endforeach
                         </select>
-                        @error('type')
+                        @error('campus_id')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
@@ -112,7 +112,7 @@
                                     <option value="{{$role->id}}" {{$role->id == \App\Models\User::find($user->id)->roleR()->first()->role_id??null ? 'selected' : ''}}>{{$role->name}}</option>
                                 @endforeach
                             </select>
-                            @error('type')
+                            @error('role_id')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
@@ -121,8 +121,8 @@
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button class="btn btn-xs btn-primary" type="submit">Save</button>
-                        <a class="btn btn-xs btn-danger" href="{{route('admin.users.index')}}" type="button">Cancel</a>
+                        <button class="btn btn-xs btn-primary text-capitalize" type="submit">@lang('text.word_save')</button>
+                        <a class="btn btn-xs btn-danger text-capitalize" href="{{route('admin.users.index')}}" type="button">@lang('text.word_cancel')</a>
                     </div>
                 </div>
 

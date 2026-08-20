@@ -3,18 +3,23 @@
 @php
 $user = auth('student')->user();
 $user = $user == null ? auth()->user() : $user;
+$bg1 = \App\Http\Controllers\HomeController::getColor('background_color_1');
 @endphp
-<!-- <div>
-    <div id="user-profile-1" class="user-profile row">
-        <div style="width:90%; margin-block:1.5rem; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-auto rounded">
-            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. PRINT OUT YOUR FORM AND DEPOSIT THEM AT THE REGISTRY <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">672137794</span></span>
-            <span class="d-block w-100 text-danger text-center"><span class="text-primary">MOMO NUMBER -</span><span class="text-secondary"> NUMÉRO MOMO</span> :6 71 98 92 92 | MOMO NAME - <span class="text-secondary">NON SUR MOMO</span> :<span class="text-dark">EMELIE BERINYUY ASHUMBENG</span> | UNDERGRADUATE APPLICATION FEE - :<span class="text-primary">5,000 XAF</span> BACHELOR APPLICATION FEE - :<span class="text-primary">10,000 XAF </span> MASTERS APPLICATION FEE - :<span class="text-primary">20,000 XAF </span></span>
-        </div>
-        {{-- @if()
-        @endif --}}
-        <div class="my-5 py-3 mx-auto text-center alert-info shadow" style="width:90%; font-size:larger; font-weight:600">
-            lorem cjkjewhr iuhyiuehgwtr wk erijewhtjh sgfe t g w i i tit g jhewyu trgtuegt ht thgj
+    <div class="container-fluid">
+        <div class="row">
+            @foreach ($campuses as $campus)
+                <div class="col-md-6">
+                    <div class="" style="border: 1px solid gray; margin: 2rem auto; border-radius: 0.5rem; max-width: 300px;">
+                        <div class="text-center" style="padding-block: 2rem;">
+                            <h4 class="card-title" style="font-size: 2.5rem; font-weight: 900; color: {{ $bg1 }}; ">{{ $campus->name }}</h4>
+                            <div style="margin-block: 0.5rem !important; padding-block: 0.5rem !important;">{{ $campus->telephone }} &Rang; {{ $campus->address }}</div>
+                            <div class="" style="margin: 0.5rem auto !important; padding: 0.5rem auto !important;">
+                                <a href="{{ route('student.programs.index', ['campus_id' => $campus->id]) }}" style="border: 2px solid {{ $bg1 }}; border-radius: 0.5rem; padding: 1.5rem 3rem; margin-block: 1rem; text-decoration: none; color: {{ $bg1 }}; font-weight: 700; margin: 2rem auto; font-size: 1.85rem;" class="text-capitalize">@lang('text.view_programs')</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
-</div> -->
 @endsection

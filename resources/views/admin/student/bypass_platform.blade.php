@@ -5,7 +5,7 @@
             <thead class="text-capitalize">
                 <tr>
                     <th class="header text-center">@lang('text.word_student')</th>
-                    <th colspan="4"> <input type="search" name="" id="" oninput="searchStudent(this)" class="form-control" placeholder="search student by name, email or phone number"></th>
+                    <th colspan="4"> <input type="search" name="" id="" oninput="searchStudent(this)" class="form-control" placeholder="@lang('text.search_by_name_email_or_phone')"> </th>
                 </tr>
                 <tr class="border-y border-dark">
                     <th>#</th>

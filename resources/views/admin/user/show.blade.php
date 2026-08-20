@@ -45,7 +45,7 @@
                 <div class="profile-user-info profile-user-info-striped">
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Gender</div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_gender')</div>
 
                         <div class="profile-info-value">
                             <span class="editable"
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Email</div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_email')</div>
 
                         <div class="profile-info-value">
                             <span class="editable"
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="profile-info-row">
-                        <div class="profile-info-name text-capitalize"> {{__('text.word_matricule')}}</div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_matricule')</div>
 
                         <div class="profile-info-value">
                             <span class="editable"
@@ -70,21 +70,25 @@
                         </div>
                     </div>
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Contact</div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_phone')</div>
 
                         <div class="profile-info-value">
                             <span class="editable" id="username"> {{$user->phone}}</span>
                         </div>
                     </div>
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Type</div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_type')</div>
 
                         <div class="profile-info-value">
                             <span class="editable" id="username"> {{$user->type}}</span>
                         </div>
                     </div>
                     <div class="profile-info-row">
-                        <div class="profile-info-name"></div>
+                        <div class="profile-info-name text-capitalize"> @lang('text.word_campus')</div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="username"> {{\App\Models\Campus::find($user->campus_id)->name ?? '----'}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="space-20"></div>

@@ -7,7 +7,7 @@
                 <input name="type" value="{{request('type','teacher')}}" type="hidden" />
                 @csrf
                 <div class="form-group @error('name') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2">Full Name (required)</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.full_name') <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="name" value="{{old('name')}}" type="text" required />
                         @error('name')
@@ -18,7 +18,7 @@
 
 
                 <div class="form-group @error('email') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2">{{__('text.word_email')}} ({{__('text.word_required')}})</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_email') (@lang('text.word_required'))</label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="email" value="{{old('email')}}" type="email" required />
                         @error('email')
@@ -47,7 +47,7 @@
 
 
                 <div class="form-group @error('phone') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2">Phone</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_phone')</label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="phone" value="{{old('phone')}}" type="text" required />
                         @error('phone')
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="form-group @error('address') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2">Address</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_address')</label>
                     <div class="col-lg-10">
                         <input class=" form-control" name="address" value="{{old('address')}}" type="text" required />
                         @error('address')
@@ -67,12 +67,12 @@
                 </div>
 
                 <div class="form-group @error('gender') has-error @enderror">
-                    <label for="cname" class="control-label col-lg-2">Gender</label>
+                    <label for="cname" class="control-label col-lg-2 text-capitalize">@lang('text.word_gender')</label>
                     <div class="col-lg-10">
                         <select class="form-control" name="gender">
-                            <option selected disabled>Select Gender</option>
-                            <option {{old('gender') == 'male'?'selected':''}} value="male">Male</option>
-                            <option {{old('gender') == 'female'?'selected':''}} value="female">Female</option>
+                            <option selected disabled>@lang('text.word_gender')</option>
+                            <option {{old('gender') == 'male'?'selected':''}} value="male">@lang('text.word_male')</option>
+                            <option {{old('gender') == 'female'?'selected':''}} value="female">@lang('text.word_female')</option>
                         </select>
                         @error('gender')
                         <span class="invalid-feedback">{{ $message }}</span>
@@ -82,8 +82,8 @@
                 <input type="hidden" name="type" id="" value="{{request('type') ?? ''}}">
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                        <button class="btn btn-xs btn-primary" type="submit">Save</button>
-                        <a class="btn btn-xs btn-danger" href="{{route('admin.users.index')}}" type="button">Cancel</a>
+                        <button class="btn btn-xs btn-primary text-capitalize" type="submit">@lang('text.word_save')</button>
+                        <a class="btn btn-xs btn-danger text-capitalize" href="{{route('admin.users.index')}}" type="button">@lang('text.word_cancel')</a>
                     </div>
                 </div>
 

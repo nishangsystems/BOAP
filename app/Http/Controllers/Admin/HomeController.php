@@ -285,4 +285,56 @@ class HomeController  extends Controller
         return back()->with('sucess', 'Done');
         
     }
+
+
+    public function notify_applicants_by_sms(Request $request){
+        $data['title'] = "Notify All|Admitted Applicants of this Accademic Year";
+        $data['options'] = ['all_applicants' => 'ALL APPLICANTS', 'admitted_students' => 'ADMITTED STUDENTS'];
+        return view('admin.notification.send_bulk_sms', $data);
+    }
+
+
+    public function notify_applicants_by_sms_send(Request $request){
+        try {
+            //code...
+            $request->validate(['option' => 'required', 'message' => 'required']);
+            $year_id = \App\Helpers\Helpers::instance()->getCurrentAccademicYear();
+
+            switch($request->option){
+                case "all_applicants":
+                    // get and process phone numbers for all applicants, then forward sms to numbers if any
+                    $current_year_applicants = \App\Models\ApplicationForm::whereNotNull('transaction_id')->whereNotNull('phone')->where('year_id', $year_id)->pluck('phone')->unique();
+                    if($current_year_applicants->count() > 0){
+                        $phone_numbers = $current_year_applicants->toArray();
+                        $message = $request->message;
+
+                        // send message
+                        $this->tranzak_sms_service->send($phone_numbers, $message);
+                        session()->flash('success', "Message sent successfully");
+                    }else
+                        session()->flash('error', "No applicants were found");
+                    break;
+                case "admitted_students":
+                    // get and process phone numbers for all admitted students, then forward sms to numbers if any
+                    $current_year_admitted_students = \App\Models\ApplicationForm::where('admitted', '>', 0)->whereNotNull('transaction_id')->whereNotNull('phone')->where('year_id', $year_id)->pluck('phone')->unique();
+                    if($current_year_admitted_students->count() > 0){
+                        $phone_numbers = $current_year_admitted_students->toArray();
+                        $message = $request->message;
+
+                        // send the message
+                        $this->tranzak_sms_service->send($phone_numbers, $message);
+                        session()->flash('success', "Message sent successfully");
+                    }else
+                        session()->flash('error', "No applicants were found");
+                    break;
+
+                }
+            return back();
+        } catch (\Throwable $th) {
+            //throw $th;
+            logger()->error($th);
+            session()->flash('error', $th->getMessage());
+            return back();
+        }
+    }
 }

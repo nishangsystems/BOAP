@@ -29,33 +29,6 @@ Route::get('/clear', function () {
 
 });
 
-// test mail sender
-// Route::get('send_sms', [Controller::class, 'sendSMS']/*function(){
-//     // $mailer = new MailService();
-//     // $subject = "Form Submission Notification";
-//     // $text = "Your application form has been submitted successfully";
-//     // $data = ['name'=>"GERMANUS K", 'email'=>"germanuskeming@gmail.com"];
-//     // if(@mail($data['email'], $subject, $text)){
-//     //     return "success";
-//     // }else{return "failed";}
-//     // $mailer->sendPlainMail($subject, $text, $data);
-
-//     // $basic  = new \Vonage\Client\Credentials\Basic("8d8bbcf8", "04MLvso1he1b8ANc");
-//     // $client = new \Vonage\Client($basic);
-
-//     // $response = $client->sms()->send(
-//     //     new \Vonage\SMS\Message\SMS("237699131895", '+237672908239', 'A text message sent using the Nexmo SMS API')
-//     // );
-    
-//     // $message = $response->current();
-    
-//     // if ($message->getStatus() == 0) {
-//     //     echo "The message was sent successfully\n";
-//     // } else {
-//     //     echo "The message failed with status: " . $message->getStatus() . "\n";
-//     // }
-// }*/);
-
 Route::get('send_admission_sms', [Controller::class, 'sendAdmissionSMS']);
 
 Route::get('set_local/{lang}', [Controller::class, 'set_local'])->name('lang.switch');
@@ -157,6 +130,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('admission/admit/{id}', [ProgramController::class, 'admit_student'])->name('admission.admit');
     Route::get('admission/show/{id}', [ProgramController::class, 'application_details'])->name('admission.show');
     Route::get('applications', [ProgramController::class, 'applications'])->name('applications.all');
+    Route::get('applicants/notify/sms', [AdminHomeController::class, 'notify_applicants_by_sms'])->name('applicants.sms.notify');
+    Route::post('applicants/notify/sms', [AdminHomeController::class, 'notify_applicants_by_sms_send']);
     Route::name('applications.')->prefix('applications')->group(function(){
         Route::get('print_form/{id?}', [ProgramController::class, 'print_application_form'])->name('print_form');
         Route::get('edit/{id?}', [ProgramController::class, 'edit_application_form'])->name('update');
@@ -172,12 +147,15 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('admission_letter/{id?}', [ProgramController::class, 'admission_letter'])->name('admission_letter');
         Route::get('program/change/report', [ProgramController::class, 'program_change_report'])->name('program_change.report');
         Route::get('program/change/{id?}', [ProgramController::class, 'application_form_change_program'])->name('change_program');
+        Route::get('certification/entry/report', [ProgramController::class, 'entry_qualification_report'])->name('entry_qualification.report');
+        Route::get('degree/report', [ProgramController::class, 'degree_applications_report'])->name('degree.report');
         Route::post('program/change/{id?}', [ProgramController::class, 'change_program']);
         Route::post('change_program/{id?}', [ProgramController::class, 'change_program_save'])->name('_change.program');
         Route::get('by_program/{id?}', [ProgramController::class, 'applications_per_program'])->name('by_program');
         Route::get('by_degree/{id?}', [ProgramController::class, 'applications_per_degree'])->name('by_degree');
         Route::get('by_campus/{id?}', [ProgramController::class, 'applications_per_campus'])->name('by_campus');
         Route::get('finance/general', [ProgramController::class, 'finance_general_report'])->name('finance.general');
+        Route::get('finance/summary', [ProgramController::class, 'finance_summary_report'])->name('finance.summary');
 
         Route::get('admitted', [ProgramController::class, 'admitted_students'])->name('admitted_students');
     });
@@ -207,6 +185,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::prefix('custom/applications')->name('custom_applications.')->group(function(){
         Route::get('', [CustomApplicationController::class, 'index'])->name('index');
+        Route::get('local/create', [CustomApplicationController::class, 'create_local'])->name('local.create');
+        Route::post('local/create', [CustomApplicationController::class, 'store_local']);
         Route::get('create', [CustomApplicationController::class, 'create'])->name('create');
         Route::post('create', [CustomApplicationController::class, 'store']);
         Route::get('switch', [CustomApplicationController::class, 'switch_program'])->name('switch');
@@ -222,7 +202,7 @@ Route::get('program{program_id}levels', [Controller::class, 'program_levels'])->
 
 Route::prefix('student')->name('student.')->middleware('isStudent')->middleware('plcharge')->group(function () {
     // Route::get('', 'Student\HomeController@index')->name('home');
-    Route::get('', 'Student\HomeController@all_programs')->name('home');
+    Route::get('', 'Student\HomeController@index')->name('home');
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
     Route::get('subject', 'Student\HomeController@subject')->name('subject');

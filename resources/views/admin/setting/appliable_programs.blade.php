@@ -4,7 +4,7 @@
         <form method="POST">
             @csrf
             <div class="alert-light py-2 border-top border-bottom border-dark d-flex">
-                <div cass="d-flex"><span><input type="checkbox" class="input input-lg mx-2 checkbox" id="check_all_checkbox" onchange="checkAll(this)"></span>check all</div>
+                <div cass="d-flex"><span><input type="checkbox" class="input input-lg mx-2 checkbox" id="check_all_checkbox" onchange="checkAll(this)"></span>@lang('text.check_all')</div>
                 <div class="text-center h4 text-capitalize col-md-9"><b>@lang('text.set_appliable_programs')</b></div>
             </div>
             <div class="container-fluid my-2">

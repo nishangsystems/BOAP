@@ -3,7 +3,7 @@
 @section('section')
     <div class="col-sm-12">
         <p class="text-muted">
-            <a href="{{route('admin.users.create')}}?type={{$type}}" class="btn btn-info btn-xs">Add {{request('type')}}</a>
+            <a href="{{route('admin.users.create')}}?type={{$type}}" class="btn btn-info btn-xs getElementById">@lang('text.word_add') {{request('type')}}</a>
         </p>
 
         <div class="content-panel">
@@ -34,10 +34,10 @@
                                 <td>{{!($user->campus_id == null) ? $campuses->where('id', $user->campus_id)->first()->name ?? '' : ''}}</td>
                                 <td>{{$user->gender}}</td>
                                 <td  class="d-flex justify-content-end align-items-center" >
-                                    <a class="btn btn-xs btn-primary" href="{{route('admin.users.show',[$user->id])}}"><i class="fa fa-eye"> Profile</i></a> |
-                                    <a class="btn btn-xs btn-success" href="{{route('admin.users.edit',[$user->id])}}"><i class="fa fa-edit"> Edit</i></a> |
+                                    <a class="btn btn-xs btn-primary" href="{{route('admin.users.show',[$user->id])}}"><i class="fa fa-eye text-capitalize"> @lang('text.word_profile')</i></a> |
+                                    <a class="btn btn-xs btn-success" href="{{route('admin.users.edit',[$user->id])}}"><i class="fa fa-edit text-capitalize"> @lang('text.word_edit')</i></a> |
                                     <a onclick="event.preventDefault();
-                                            confirm(`You are about to delete {{$user->type}}; {{$user->name}}`) ? document.getElementById('delete{{$user->id}}').submit() : null;" class=" btn btn-danger btn-xs m-2">Delete</a>
+                                            confirm(`You are about to delete {{$user->type}}; {{$user->name}}`) ? document.getElementById('delete{{$user->id}}').submit() : null;" class=" btn btn-danger btn-xs m-2 text-capitalize">@lang('text.word_delete')</a>
                                     <form id="delete{{$user->id}}" action="{{route('admin.users.destroy',$user->id)}}" method="POST" style="display: none;">
                                         @method('DELETE')
                                         {{ csrf_field() }}

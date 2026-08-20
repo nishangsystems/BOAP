@@ -2,7 +2,7 @@
 @section('section')
     <div class="w-100">
         <div id="accordion" class="panel-group">
-            @foreach (($campuses[0]->programs) ?? [] as $key => $school)                    
+            @foreach (($campuses[$campus_id]->programs) ?? [] as $key => $school)                    
                 <table class="border">
                     <thead><tr class="text-capitalize border-bottom">
                         <th class="border-left border-right">{{ __('text.sn') }}</th>
@@ -19,7 +19,7 @@
                             <td class="border-left border-right">{{ $program->name }}</td>
                             <td class="border-left border-right">
                                 {{-- @if ($program->appliable == 1) --}}
-                                    <a href="{{ route('student.application.start', 0) }}?_prg={{ $program->id }}" class="btn btn-sm rounded btn-primary">apply</a>
+                                    <a href="{{ route('student.application.start', 0) }}?_prg={{ $program->id }}" class="btn btn-sm rounded btn-primary">@lang('text.word_apply')</a>
                                 {{-- @endif --}}
                             </td>
                         </tr>
