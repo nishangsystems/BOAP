@@ -14,16 +14,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Services\ApiService;
+use App\Services\TranzakSMSService;
 
 use function PHPUnit\Framework\returnSelf;
 
 class HomeController  extends Controller
 {
     var $api_service;
-    public function __construct(ApiService $api_service)
+    public $tranzak_sms_service;
+
+    public function __construct(ApiService $api_service, TranzakSMSService $tranzakSMSService)
     {
         # code...
         $this->api_service = $api_service;
+        $this->tranzak_sms_service = $tranzakSMSService;
     }
 
     public function index()
