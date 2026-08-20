@@ -308,6 +308,7 @@ class HomeController  extends Controller
                 case "all_applicants":
                     // get and process phone numbers for all applicants, then forward sms to numbers if any
                     $current_year_applicants = \App\Models\ApplicationForm::whereNotNull('transaction_id')->whereNotNull('phone')->where('year_id', $year_id)->pluck('phone')->unique();
+                    // dd($current_year_applicants);
                     if($current_year_applicants->count() > 0){
                         $phone_numbers = $current_year_applicants->toArray();
                         $message = $request->message;
