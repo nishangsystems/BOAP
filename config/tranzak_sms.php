@@ -8,9 +8,9 @@ return [
     // 'nishang_sms_sender_id'=>'NISHANG',
 
     // --------------------------------------------------------------
-    // 'biaka_sms_app_id'=>'apnxwqcrve5s7l',
-    // 'biaka_sms_api_key'=>'PROD_4178E5BB64DF486FA778B5716C3E06AA',
-    // 'biaka_sms_sender_id'=>'BUIB',
+    'biaka_sms_app_id'=>'apnxwqcrve5s7l',
+    'biaka_sms_api_key'=>'PROD_4178E5BB64DF486FA778B5716C3E06AA',
+    'biaka_sms_sender_id'=>'BUIB',
 
 
     // END POINTS
