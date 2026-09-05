@@ -260,11 +260,15 @@
                 </a>
                 <ul class="submenu">
                     <li>
-                        <a href="{{route('logout')}}" class="text-capitalize">
-                            <i  style="color: {{$bg1}};" class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.word_logout')}}
+                        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        href="#" class="text-capitalize">
+                            <i style="color: {{$bg1}}" class="menu-icon fa fa-lock"></i>
+                            <span class="menu-text">	{{__('text.word_logout')}}</span>
                         </a>
                         <b class="arrow"></b>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
                     </li>
                 </ul>
             </li>

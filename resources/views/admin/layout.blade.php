@@ -677,15 +677,15 @@
 
             <li>
                 <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                   href="{{route('logout')}}" class="text-capitalize">
+                   href="#" class="text-capitalize">
                     <i style="color: {{$bg1}}" class="menu-icon fa fa-lock"></i>
                     <span class="menu-text">	{{__('text.word_logout')}}</span>
                 </a>
                 <b class="arrow"></b>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
 
         </ul><!-- /.nav-list -->
 
