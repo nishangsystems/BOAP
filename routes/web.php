@@ -200,9 +200,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 Route::get('degree{degree_id}programs', [Controller::class, 'degree_programs'])->name('degree_programs');
 Route::get('program{program_id}levels', [Controller::class, 'program_levels'])->name('_program_levels');
 
-Route::prefix('student')->name('student.')->middleware('isStudent')->middleware('plcharge')->group(function () {
-    // Route::get('', 'Student\HomeController@index')->name('home');
-    Route::get('', 'Student\HomeController@index')->name('home');
+Route::prefix('student')->name('student.')->middleware(['isStudent', 'plcharge'])->group(function () {
+    Route::get('', 'Student\HomeController@index')->name('home')->withoutMiddleware('plcharge');
     Route::get('edit_profile', 'Student\HomeController@edit_profile')->name('edit_profile');
     Route::post('update_profile', 'Student\HomeController@update_profile')->name('update_profile');
     Route::get('subject', 'Student\HomeController@subject')->name('subject');
@@ -282,7 +281,7 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->middleware(
     Route::get('campus/programs/{campus_id}', [Controller::class, 'campusPrograms'])->name('campus.programs');
     Route::get('campus/degrees/{campus_id}', [Controller::class, 'campusDegrees'])->name('campus.degrees');
     Route::get('region/divisions/{region_id}', [Controller::class, 'regionDivisions'])->name('region.divisions');
-    Route::get('programs/all', [StudentHomeController::class, 'all_programs'])->name('programs.index');
+    Route::get('programs/all', [StudentHomeController::class, 'all_programs'])->name('programs.index')->withoutMiddleware('plcharge');
     Route::get('payment/data', [StudentHomeController::class, 'payment_data'])->name('payment.data');
     Route::get('application/start/{step}/{id?}', [StudentHomeController::class, 'start_application'])->name('application.start');
     Route::post('application/start/{step}/{id?}', [StudentHomeController::class, 'persist_application']);
