@@ -157,21 +157,22 @@ class HomeController extends Controller
     {
         # code...
         $form = ApplicationForm::where(['student_id'=>auth('student')->id(), 'year_id'=>Helpers::instance()->getCurrentAccademicYear()])->first();
+        $campus_id = $form?->campus_id ?: $request->campus_id;
         if($request->campus_id != null){
             if($form != null){
                 $form->campus_id = $request->campus_id;
                 $form->save();
             }
         }else{
-            if($form == null || $form->campus_id == null){
+            if($form == null || $campus_id == null){
                 return redirect(route('student.home'))->with('error', 'Please select a campus to view available programs');
             }
         }
-        $data['campuses'] = collect(json_decode($this->api_service->campuses())->data??[])->where('id', $form->campus_id)->keyBy('id')->all();
+        $data['campuses'] = collect(json_decode($this->api_service->campuses())->data??[])->where('id', $campus_id)->keyBy('id')->all();
         // dd($data['campuses']);
-        $data['campus_id'] = $form->campus_id;
-        $data['title'] = "Our programs &Rang; ".(collect($data['campuses'])->where('id', $form->campus_id)->first()->name??"");
-        $data['campuses'][$form->campus_id]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($form->campus_id))->data)->unique()->groupBy('school');
+        $data['campus_id'] = $campus_id;
+        $data['title'] = "Our programs &Rang; ".(collect($data['campuses'])->where('id', $campus_id)->first()->name??"");
+        $data['campuses'][$campus_id]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($campus_id))->data)->unique()->groupBy('school');
         
         // dd($data);
         return view('student.online.programs', $data);
