@@ -402,6 +402,7 @@ class HomeController extends Controller
         // dd('check point');
         $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
         $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
+        
         $pay_channel = !empty($tranzak_credentials) ? 'tranzak' : 'momo';
         switch($pay_channel){
             case 'momo':
@@ -479,6 +480,11 @@ class HomeController extends Controller
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
+        $tranzak_credentials = TranzakCredential::where('campus_id', $appl->campus_id)->first();
+        if($tranzak_credentials != null){
+            $transaction = $appl->tranzakTransaction;
+        }
+
         if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
         elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
         elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
