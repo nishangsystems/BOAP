@@ -632,19 +632,27 @@ class ProgramController extends Controller
         if(!($request->has('bypass_reason'))){
             session()->flash('error', 'Bypass reason required');
             return back()->withInput();
-        }
+        } 
         $application = ApplicationForm::find($id);
         $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $application->degree_id)->first();
 
 
-        // $data = ['transaction_ref'=>'_______', 'app_id'=>'_______', 'transaction_id'=>'_________', 'payment_method'=>'______', 'payer_user_id'=>'_________', 'payer_name'=>'_________', 'payer_account_id'=>'________', 'merchant_fee'=>0, 'merchant_account_id'=>'___________', 'net_amount_recieved'=>0];
-        $data = [
-            'student_id'=>$application->student_id, 'amount'=>$degree->amount??0, 'year_id'=>$application->year_id,
-            'tel'=>($application->phone == null ? $application->student->phone : $application->phone), 'status'=>'SUCCESSFUL','payment_purpose'=>'____________','payment_method'=>'_________',
-            'reference'=>auth()->id(), 'transaction_id'=>'_________', 'payment_id'=>$application->degree_id, 'financialTransactionId'=>'_________',
-            ];
-        $transaction = new Transaction($data);
-        $transaction->save();
+        $tranzak_credentials = \App\Models\TranzakCredential::where(['campus_id' => $application->campus_id])->first();
+        if(empty($tranzak_credentials)){
+            // $data = ['transaction_ref'=>'_______', 'app_id'=>'_______', 'transaction_id'=>'_________', 'payment_method'=>'______', 'payer_user_id'=>'_________', 'payer_name'=>'_________', 'payer_account_id'=>'________', 'merchant_fee'=>0, 'merchant_account_id'=>'___________', 'net_amount_recieved'=>0];
+            $data = [
+                'student_id'=>$application->student_id, 'amount'=>$degree->amount??0, 'year_id'=>$application->year_id,
+                'tel'=>($application->phone == null ? $application->student->phone : $application->phone), 'status'=>'SUCCESSFUL','payment_purpose'=>'____________','payment_method'=>'_________',
+                'reference'=>auth()->id(), 'transaction_id'=>'_________', 'payment_id'=>$application->degree_id, 'financialTransactionId'=>'_________',
+                ];
+            $transaction = new Transaction($data);
+            $transaction->save();
+        }else{
+            $transaction = TranzakTransaction::factory()->create();
+            $transaction->payment_id = $application->degree_id;
+            $transaction->amount = $degree->amount??0;
+            $transaction->save();
+        }
 
         $application->update(['transaction_id'=>$transaction->id, 'bypass_reason'=>$request->bypass_reason]);
         return redirect(route('admin.applications.uncompleted'))->with('success', __('text.word_done'));
