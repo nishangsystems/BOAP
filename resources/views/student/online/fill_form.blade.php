@@ -811,19 +811,29 @@ $em_key = time().random_int(3000, 3099);
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
                             <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
-                                <div class="py-4 text-info text-center ">@lang('text.application_fee_payment_note', ['amount' => $degree->amount])</div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
-                                    <div class="">
-                                        <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                                @if($application->campus_id == 10)
+                                    <div class="py-4 text-info text-center ">@lang('text.application_bank_payment_note', ['amount' => $degree->amount])</div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.bank_payment_refernce') }} (<span class="text-danger">*</span>)</label>
+                                        <div class="">
+                                            <input type="text" class="form-control text-primary"  name="bank_payment_id" value="{{ $application->bank_payment_id }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
-                                    <div class="">
-                                        <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                @else
+                                    <div class="py-4 text-info text-center ">@lang('text.application_fee_payment_note', ['amount' => $degree->amount])</div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
+                                        <div class="">
+                                            <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
+                                        <div class="">
+                                            <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="py-5 d-flex justify-content-center">
                                     <a href="{{ route('student.application.start', [$step-1, $application->id]) }}" class="px-4 py-1 btn btn-xs btn-danger">{{ __('text.word_back') }}</a>
                                     <input type="submit" class="px-4 py-1 btn btn-xs btn-primary" value="{{ __('text.save_and_continue') }}">
