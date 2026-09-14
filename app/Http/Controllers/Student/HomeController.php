@@ -416,9 +416,10 @@ class HomeController extends Controller
             
             if($appl->campus_id == 10 and $request->bank_payment_id != null){
                 $appl->bank_payment_id = $request->bank_payment_id;
-                $trans = TranzakTransaction::factory()->create();
-                $appl->transaction_id = $trans->id??0;
-                $appl->transaction_id = $appl->transaction_id ?: 
+                if($appl->transaction_id == null){
+                    $trans = TranzakTransaction::factory()->create();
+                    $appl->transaction_id = $appl->transaction_id ?: $trans->id ?? 0;
+                }
                 $appl->save();
 
                 $step = 1;
