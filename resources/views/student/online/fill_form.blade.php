@@ -812,7 +812,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
                             <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
                                 @if($application->campus_id == 10)
-                                    <div class="py-4 text-info text-center ">@lang('text.application_bank_payment_note', ['amount' => $degree->amount])</div>
+                                    <div class="py-4 text-info text-center ">@lang('text.application_bank_payment_note', ['amount' => 50000])</div>
                                     <div class="py-3">
                                         <label class="text-secondary text-capitalize">{{ __('text.bank_payment_refernce') }} (<span class="text-danger">*</span>)</label>
                                         <div class="">
