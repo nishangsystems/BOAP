@@ -25,7 +25,7 @@ $em_key = time().random_int(3000, 3099);
                                 </select>
                             </div>
                             {{-- <input type="hidden" name="campus_id" value="{{ $application->campus_id }}"> --}}
-                            <div class="col-sm-12 col-md-12">
+                            <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.applying_for_phrase') }}</span><i class="text-danger text-xs">*</i></label>
                                 <select name="degree_id" class="form-control text-primary"  id="degree_types">  
                                     @if($application->degree_id != null)
