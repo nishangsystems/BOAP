@@ -420,6 +420,8 @@ class HomeController extends Controller
                 $appl->transaction_id = $trans->id??0;
                 $appl->transaction_id = $appl->transaction_id ?: 
                 $appl->save();
+
+                $step = 1;
             }else{
                 // dd('check point');
                 $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
