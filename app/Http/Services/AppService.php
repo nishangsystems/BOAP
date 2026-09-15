@@ -38,7 +38,7 @@ class AppService{
             }
             
             // get program fee settings
-            $fees = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id, $option=1)['data'];
+            $fees = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id, $option=1, $appl->campus_id)['data'];
             // dd($fees);
             if($fees == null){
                 session()->flash('error', 'Fees not set for this program. Contact school system for fee settings');
