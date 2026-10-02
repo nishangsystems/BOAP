@@ -32,7 +32,6 @@
                         <th>{{__('text.word_degree')}}</th>
                     @elseif(request('filter') == 'campus')
                         <th>{{__('text.word_campus')}}</th>
-                    @endif
                     @else
                         <th>{{__('text.word_program')}}</th>
                     @endif
