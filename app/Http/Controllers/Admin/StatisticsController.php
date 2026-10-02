@@ -63,15 +63,24 @@ class StatisticsController extends Controller
             case 'campus':
                 $data['title'] = "Application Statistics Filtered By Campus";
                 $campuses = collect(json_decode($this->apiService->campuses())->data);
-                $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('campus_id')
+                $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('campus_id', 'degree_id')
                     ->select([
-                             'campus_id', DB::raw("COUNT(*) as _count"), 
+                             'campus_id', 'degree_id', DB::raw("COUNT(*) as _count"), 
                              DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
                              DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
                              ])
-                    ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($campuses){
+                    ->having('_count', '>', 0)->distinct()->get()->groupBy('campus_id')->map(function($campusForms)use($campuses, $degrees){
+                        $rec = $campusForms->first();
+                        $rec->_count = $campusForms->sum('_count');
+                        $rec->male_count = $campusForms->sum('male_count');
+                        $rec->female_count = $campusForms->sum('female_count');
+                        $rec->total = $campusForms->sum(function($degreeForms)use($degrees){
+                            $amount = $degrees->where('id', $degreeForms->degree_id)->first()->amount??0;
+                            return (float)$amount * $degreeForms->_count;
+                        });
                         $rec->campus = $campuses->where('id', $rec->campus_id)->first()->name??null;
-                    });
+                        return $rec;
+                    })->values();
                 $data['forms'] = $forms;
                 break;
 
