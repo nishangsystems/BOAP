@@ -702,9 +702,9 @@ class ProgramController extends Controller
             $data['title'] = $degs->where('id', $degree_id)->first()->deg_name.' Applications';
             $data['progs'] = $progs;
             if($campus_id != null){
-                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->where(['year_id' => $this->current_year, 'submitted' => 1])->where('campus_id', $campus_id)->get();
+                $data['appls'] = ApplicationForm::where(['degree_id'=> $degree_id, 'year_id' => $this->current_year, 'submitted' => 1])->where('campus_id', $campus_id)->get();
             }else{
-                $data['appls'] = ApplicationForm::where('degree_id', $degree_id)->where(['year_id' => $this->current_year, 'submitted' => 1])->get();
+                $data['appls'] = ApplicationForm::where(['degree_id'=> $degree_id, 'year_id' => $this->current_year, 'submitted' => 1])->get();
             }
             return view('admin.student.degree_applications', $data);
         }
