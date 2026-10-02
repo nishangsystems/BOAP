@@ -12,6 +12,7 @@
                             <option value=""></option>
                             <option value="degree" {{request('filter') == 'degree' ? 'selected' : ''}}>{{__('text.word_degree')}}</option>
                             <option value="program" {{request('filter') == 'program' ? 'selected' : ''}}>{{__('text.word_program')}}</option>
+                            <option value="campus" {{request('filter') == 'campus' ? 'selected' : ''}}>{{__('text.word_campus')}}</option>
                         </select>
                     </div>
                 </div>
@@ -29,6 +30,9 @@
                     <th>##</th>
                     @if (request('filter') == 'degree')
                         <th>{{__('text.word_degree')}}</th>
+                    @elseif(request('filter') == 'campus')
+                        <th>{{__('text.word_campus')}}</th>
+                    @endif
                     @else
                         <th>{{__('text.word_program')}}</th>
                     @endif
@@ -41,7 +45,7 @@
 
                         <tr class="border-bottom border-dark" style="background-color: rgba(243, 243, 252, 0.4);">
                             <td class="border-left border-right">{{$count++}}</td>
-                            <td class="border-left border-right">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
+                            <td class="border-left border-right">{{ request('filter') == 'degree' ? $form->degree : (request('filter') == 'campus' ? $form->campus : $form->program) }}</td>
                             <td class="border-left border-right">{{ $form->male_count??'' }}</td>
                             <td class="border-left border-right">{{ $form->female_count??'' }}</td>
                             <td class="border-left border-right">{{ $form->_count??'' }}</td>

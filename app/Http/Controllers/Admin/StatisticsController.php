@@ -37,7 +37,7 @@ class StatisticsController extends Controller
     //
     public function application_stats(Request $request){
 
-        $validator = Validator::make([$request->all()], ['filter'=>'in:program,degree|nullable']);
+        $validator = Validator::make([$request->all()], ['filter'=>'in:program,degree,campus|nullable']);
         if($validator->fails()){
             session()->flash('error', $validator->errors()->first());
         }
@@ -59,7 +59,22 @@ class StatisticsController extends Controller
                 });
                 $data['forms'] = $forms;
                 break;
-                
+
+            case 'campus':
+                $data['title'] = "Application Statistics Filtered By Campus";
+                $campuses = collect(json_decode($this->apiService->campuses())->data);
+                $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('campus_id')
+                    ->select([
+                             'campus_id', DB::raw("COUNT(*) as _count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                             ])
+                    ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($campuses){
+                        $rec->campus = $campuses->where('id', $rec->campus_id)->first()->name??null;
+                    });
+                $data['forms'] = $forms;
+                break;
+
             default:
                 $data['title'] = "Application Statistics Filtered By Program";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('program_first_choice')
@@ -85,12 +100,13 @@ class StatisticsController extends Controller
 
     //
     public function admission_stats(Request $request){
-        $validator = Validator::make([$request->all()], ['filter'=>'in:program,degree|nullable']);
+        $validator = Validator::make([$request->all()], ['filter'=>'in:program,degree,campus|nullable']);
         if($validator->fails()){
             session()->flash('error', $validator->errors()->first());
         }
         $programs = collect(json_decode($this->apiService->programs())->data);
         $degrees = collect(json_decode($this->apiService->degrees())->data);
+        $campuses = collect(json_decode($this->apiService->campuses())->data);
         switch($request->filter){
             case 'degree':
                 $data['title'] = "Admission Statistics Filtered By Degree";
@@ -105,8 +121,22 @@ class StatisticsController extends Controller
                 });
                 $data['forms'] = $forms;
                 break;
-                
-                default:
+
+            case 'campus':
+                $data['title'] = "Admission Statistics Filtered By Campus";
+                $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1, 'admitted'=>1])->where('transaction_id', '!=', -10000)->whereNotNull('matric')->groupBy('campus_id')
+                    ->select([
+                             'campus_id', DB::raw("COUNT(*) as _count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                             ])
+                    ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($campuses){
+                        $rec->campus = $campuses->where('id', $rec->campus_id)->first()->name??null;
+                    });
+                $data['forms'] = $forms;
+                break;
+
+            default:
                 $data['title'] = "Admission Statistics Filtered By Program";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1, 'admitted'=>1])->where('transaction_id', '!=', -10000)->whereNotNull('matric')->groupBy('program_first_choice')
                     ->select([
