@@ -34,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         View::share('help_contacts', \App\Models\School::first()->help_contacts??'');
         View::share('api_service', new \App\Http\Services\ApiService());
+        View::share('current_accademic_year', \App\Helpers\Helpers::instance()->getCurrentAccademicYear());
     }
 }

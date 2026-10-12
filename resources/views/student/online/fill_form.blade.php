@@ -15,7 +15,7 @@ $em_key = time().random_int(3000, 3099);
                     @csrf
                     <div class="px-5 py-5 border-top shadow bg-light">
                         <div class="row w-100">
-                            {{-- <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.word_campus') }}</span></label>
                                 <select name="campus_id" class="form-control text-primary"  oninput="setDegreeTypes(event)">
                                     <option>{{ __('text.select_campus') }}</option>
@@ -23,9 +23,9 @@ $em_key = time().random_int(3000, 3099);
                                         <option selected value="{{ $campus->id }}" {{ $application->campus_id == $campus->id ? 'selected' : '' }}>{{ $campus->name }}</option>
                                     @endforeach
                                 </select>
-                            </div> --}}
-                            <input type="hidden" name="campus_id" value="{{ $application->campus_id }}">
-                            <div class="col-sm-12 col-md-12">
+                            </div>
+                            {{-- <input type="hidden" name="campus_id" value="{{ $application->campus_id }}"> --}}
+                            <div class="col-sm-12 col-md-6">
                                 <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.applying_for_phrase') }}</span><i class="text-danger text-xs">*</i></label>
                                 <select name="degree_id" class="form-control text-primary"  id="degree_types">  
                                     @if($application->degree_id != null)
@@ -265,6 +265,9 @@ $em_key = time().random_int(3000, 3099);
                                         <option value="{{ $program->id }}" {{ $application->program_first_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
                                 </select>
+                                @if($application->program_first_choice != null and collect($programs)->where('appliable', 1)->where('id', $application->program_first_choice)->count() == 0)
+                                    <small class="text-danger">@lang('text.unsupported_selection_phrase')</small>
+                                @endif
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-4 col-lg-4">
@@ -283,7 +286,11 @@ $em_key = time().random_int(3000, 3099);
                             <label class="text-secondary  text-capitalize">{{ __('text.word_level') }}<i class="text-danger text-xs">*</i></label>
                             <div class="">
                                 <select class="form-control text-primary"  name="level" required id="cplevels">
-                                    
+                                    @isset($levels)
+                                        @foreach ($levels as $lev)
+                                            <option value="{{ $lev->level }}" {{ $lev->level == $application->level ? 'selected': '' }}>{{ $lev->level }}</option>
+                                        @endforeach
+                                    @endisset
                                 </select>
                             </div>
                         </div>
@@ -434,7 +441,14 @@ $em_key = time().random_int(3000, 3099);
                                                     $counter++;
                                                 @endphp
                                                 <tr class="text-capitalize">
-                                                    <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]">
+                                                            <option value=""></option>
+                                                            @foreach ($subjects as $subject)
+                                                                <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
                                                     <td>
                                                         <select class="form-control text-primary input imput-sm"  name="ol_results[{{ $ol_key }}][grade]" value="">
                                                             <option value=""></option>
@@ -544,7 +558,14 @@ $em_key = time().random_int(3000, 3099);
                                                     $counter++
                                                 @endphp
                                                 <tr class="text-capitalize">
-                                                    <td><input class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]">
+                                                            <option value=""></option>
+                                                            @foreach ($subjects as $subject)
+                                                                <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
                                                     <td>
                                                         <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
                                                             <option value=""></option>
@@ -811,19 +832,29 @@ $em_key = time().random_int(3000, 3099);
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
                             <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
-                                <div class="py-4 text-info text-center ">@lang('text.application_fee_payment_note', ['amount' => $degree->amount])</div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
-                                    <div class="">
-                                        <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                                @if($application->campus_id == 10)
+                                    <div class="py-4 text-info text-center ">@lang('text.application_bank_payment_note', ['amount' => 50000])</div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.bank_payment_refernce') }} (<span class="text-danger">*</span>)</label>
+                                        <div class="">
+                                            <input type="text" class="form-control text-primary"  name="bank_payment_id" value="{{ $application->bank_payment_id }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
-                                    <div class="">
-                                        <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                @else
+                                    <div class="py-4 text-info text-center ">@lang('text.application_fee_payment_note', ['amount' => $degree->amount])</div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
+                                        <div class="">
+                                            <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
+                                        <div class="">
+                                            <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="py-5 d-flex justify-content-center">
                                     <a href="{{ route('student.application.start', [$step-1, $application->id]) }}" class="px-4 py-1 btn btn-xs btn-danger">{{ __('text.word_back') }}</a>
                                     <input type="submit" class="px-4 py-1 btn btn-xs btn-primary" value="{{ __('text.save_and_continue') }}">
@@ -848,9 +879,9 @@ $em_key = time().random_int(3000, 3099);
             if("{{ $application->division }}" != null){
                 setDivisions('{{ $application->region }}');
             }
-            if("{{ $application->level }}" != null){
-                setLevels("{{ $application->program_first_choice }}");
-            }
+            // if("{{ $application->level }}" != null){
+            //    setLevels("{{ $application->program_first_choice }}");
+            // }
 
             // loadCampusDegrees("{{ $campuses[0]->id }}");
         });
@@ -866,7 +897,14 @@ $em_key = time().random_int(3000, 3099);
         let addAlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="al_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
+                            <td>
+                                <select class="form-control text-primary"  name="al_results[${key}][subject]" required>
+                                    <option value=""></option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                             <td>
                                 <select class="form-control text-primary"  name="al_results[${key}][grade]" required>
                                     <option value=""></option>
@@ -893,7 +931,14 @@ $em_key = time().random_int(3000, 3099);
         let addOlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="ol_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
+                            <td>
+                                <select class="form-control text-primary"  name="ol_results[${key}][subject]" required>
+                                    <option value=""></option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                             <td>
                                 <select class="form-control text-primary"  name="ol_results[${key}][grade]" required>
                                     <option value=""></option>

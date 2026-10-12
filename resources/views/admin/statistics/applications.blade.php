@@ -12,6 +12,7 @@
                             <option value=""></option>
                             <option value="degree" {{request('filter') == 'degree' ? 'selected' : ''}}>{{__('text.word_degree')}}</option>
                             <option value="program" {{request('filter') == 'program' ? 'selected' : ''}}>{{__('text.word_program')}}</option>
+                            <option value="campus" {{request('filter') == 'campus' ? 'selected' : ''}}>{{__('text.word_campus')}}</option>
                         </select>
                     </div>
                 </div>
@@ -36,13 +37,15 @@
                         <th class="bg-dark text-white">##</th>
                         @if (request('filter') == 'degree')
                             <th class="bg-info text-white">{{__('text.word_degree')}}</th>
+                        @elseif (request('filter') == 'campus')
+                            <th class="bg-info text-white">{{__('text.word_campus')}}</th>
                         @else
                             <th  class="bg-info text-white">{{__('text.word_program')}}</th>
                         @endif
                         <th class="bg-info text-white">{{__('text.word_count')}}</th>
                         <th class="bg-info text-white">{{__('text.word_males')}}</th>
                         <th class="bg-info text-white">{{__('text.word_females')}}</th>
-                        <th class="bg-dark text-white">@lang('text.unit_cost')</th>
+                        <th class="bg-dark text-white">@lang('text.unit_cost') (@lang('text.currency_cfa'))</th>
                         <th class="bg-dark text-white">@lang('text.total_paid')</th>
                     </tr>
                 </thead>
@@ -51,12 +54,12 @@
 
                         <tr class="border-bottom border-dark shadow-sm" style="background-color: rgba(243, 243, 252, 0.4);">
                             <td class="bg-dark text-white">{{$count++}}</td>
-                            <td class="">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
-                            <td class="">{{ $form->_count??'' }}</td>
-                            <td class="bg-dark text-white">{{ $form->male_count??'' }}</td>
-                            <td class="bg-dark text-white">{{ $form->female_count??'' }}</td>
-                            <td class="bg-dark text-white">{{ $form->amount??'' }}</td>
-                            <td class="bg-dark text-white">{{ $form->total??'' }}</td>
+                            <td class="">{{ request('filter') == 'degree' ? $form->degree : (request('filter') == 'campus' ? $form->campus : $form->program) }}</td>
+                            <td class="">{{ number_format($form->_count??0) }}</td>
+                            <td class="bg-dark text-white">{{ number_format($form->male_count??0) }}</td>
+                            <td class="bg-dark text-white">{{ number_format($form->female_count??0) }}</td>
+                            <td class="bg-dark text-white">{{ number_format($form->amount??0) }}</td>
+                            <td class="bg-dark text-white">{{ number_format($form->total??0) }}</td>
                             {{-- <td class="">
                                 <a href="#" class="btn btn-sm rounded text-capitalize btn-primary"><span class="mr-2 fa fa-download"></span>@lang('text.word_download')</a>
                             </td> --}}

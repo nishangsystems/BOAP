@@ -10,6 +10,10 @@
                         <div class="col-sm-8 col-lg-9"><input type="text" class="form-control" name="chancellor" required value="{{ old('chancellor', $admins->chancellor??null) }}"></div>
                     </div>
                     <div class="row my-3">
+                        <div class="col-sm-4 col-lg-3 text-secondary text-capitalize">@lang('text.word_promoter')</div>
+                        <div class="col-sm-8 col-lg-9"><input type="text" class="form-control" name="promoter" required value="{{ old('promoter', $admins->promoter??null) }}"></div>
+                    </div>
+                    <div class="row my-3">
                         <div class="col-sm-4 col-lg-3 text-secondary text-capitalize">@lang('text.pro_chancellor')</div>
                         <div class="col-sm-8 col-lg-9"><input type="text" class="form-control" name="pro_chancellor" required value="{{ old('pro_chancellor', $admins->pro_chancellor??null) }}"></div>
                     </div>

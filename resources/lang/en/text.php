@@ -1111,6 +1111,7 @@ return [
     'word_single' => 'single',
     'word_married' => 'married',
     'application_fee_payment_note' => 'You are about to make a payment of :amount CFA for application fee',
+    'application_bank_payment_note' => 'You are about to provide the bank payment reference (or receipt number) for a payment of :amount CFA for application fee',
     'complete_form_confirmation_note' => 'By clicking this button, you are confirming that every information supplied is correct.',
     'momo_transaction_id'=>'Momo Transaction ID',
     'help_line'=>'In need of help ? Contact us at <b><i>:contacts</i></b>',
@@ -1145,5 +1146,8 @@ return [
     'view_programs' => 'view programs',
     'notify_applicants' => 'notify applicants',
     'word_option' => 'option',
+    'bank_payment_refernce' => 'bank payment refernce',
+    'word_promoter' => 'promoter',
+    'unsupported_selection_phrase' => 'Your entry qualification does not support the selected program. You may consider choosing a different program',
     ''
 ];

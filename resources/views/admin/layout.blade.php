@@ -478,18 +478,26 @@
                         <b class="arrow"></b>
 
                         <ul class="submenu">
-                            {{-- <li>
+                            <li>
                                 <a href="{{route('admin.applications.by_degree')}}" class="text-capitalize">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     {{__('text.by_degree_type')}}
                                 </a>
 
                                 <b class="arrow"></b>
-                            </li> --}}
+                            </li>
                             <li>
                                 <a href="{{route('admin.applications.by_program')}}" class="text-capitalize">
                                     <i class="menu-icon fa fa-caret-right"></i>
                                     {{__('text.by_program')}}
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.applications.by_campus')}}" class="text-capitalize">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    {{__('text.word_campus')}}
                                 </a>
 
                                 <b class="arrow"></b>
@@ -677,15 +685,15 @@
 
             <li>
                 <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                   href="{{route('logout')}}" class="text-capitalize">
+                   href="#" class="text-capitalize">
                     <i style="color: {{$bg1}}" class="menu-icon fa fa-lock"></i>
                     <span class="menu-text">	{{__('text.word_logout')}}</span>
                 </a>
                 <b class="arrow"></b>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
 
         </ul><!-- /.nav-list -->
 
