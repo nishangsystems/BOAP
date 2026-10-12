@@ -158,22 +158,30 @@ class HomeController extends Controller
     {
         # code...
         $form = ApplicationForm::where(['student_id'=>auth('student')->id(), 'year_id'=>Helpers::instance()->getCurrentAccademicYear()])->first();
-        $campus_id = $form?->campus_id ?: $request->campus_id;
-        if($request->campus_id != null){
-            if($form != null){
-                $form->campus_id = $request->campus_id;
+        if(empty($form)){
+            $form = new ApplicationForm(['student_id'=>auth('student')->id(), 'year_id'=>Helpers::instance()->getCurrentAccademicYear(), 'campus_id' => $request->campus_id]);
+            $form->save();
+        }else{
+            if($request->campus_id != null){
+                $form->campus_id = $request->campus_id ?: $form->campus_id;
                 $form->save();
             }
-        }else{
-            if($form == null || $campus_id == null){
-                return redirect(route('student.home'))->with('error', 'Please select a campus to view available programs');
-            }
+        }
+
+        $campus_id = $request->campus_id ?: $form?->campus_id??null;
+        if($form == null || $campus_id == null){
+            return redirect(route('student.home'))->with('error', 'Please select a campus to view available programs');
         }
         $data['campuses'] = collect(json_decode($this->api_service->campuses())->data??[])->where('id', $campus_id)->keyBy('id')->all();
         // dd($data['campuses']);
+        $degrees = collect(json_decode($this->api_service->degrees())->data);
         $data['campus_id'] = $campus_id;
         $data['title'] = "Our programs &Rang; ".(collect($data['campuses'])->where('id', $campus_id)->first()->name??"");
-        $data['campuses'][$campus_id]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($campus_id))->data)->unique()->groupBy('school');
+        $data['campuses'][$campus_id]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($campus_id))->data)
+            ->map(function($rec)use($degrees){
+                $rec->degree_type = trim($degrees->where('id', $rec->degree_id)->first()?->deg_name);
+                return $rec;
+            })->unique()->groupBy('school');
         
         // dd($data);
         return view('student.online.programs', $data);
@@ -210,6 +218,8 @@ class HomeController extends Controller
             if ($request->_prg != null) {
                 # code...
                 $application->program_first_choice = $request->_prg;
+                $application->degree_id = $request->degree_id ?: $application->degree_id;
+                $application->save();
             }
 
             $data['application'] = $application;
@@ -231,6 +241,13 @@ class HomeController extends Controller
                 // dd($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification));
                 $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
                 $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
+                if($application->program_first_choice != null){
+                    $prog = collect($data['programs'])->where('appliable', 1)->where('id', $application->program_first_choice)->first();
+                    // if(!empty($prog))
+                    //     $data['levels'] = collect(json_decode($this->api_service->campusProgramLevels($application->campus_id, $application->program_first_choice))->data);
+                }
+
+                $data['subjects'] = \App\Models\PortalSubject::where(['certificate_id' => $application->entry_qualification])->orderBy('name')->get();
                 // dd($data['programs']);
             }
             if($data['application']->program_first_choice != null){
@@ -250,6 +267,7 @@ class HomeController extends Controller
             if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
             elseif(($transaction == null and $application->bank_payment_id == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
             elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
+            elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id == $application->degree_id) and $step == 0 ){$data['step'] = 1;}
             elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
             // dd($data['step']);
             // dd(($transaction->payment_id != $application->degree_id));
@@ -264,6 +282,7 @@ class HomeController extends Controller
             
             $data['title'] = (isset($data['degree']) and ($data['degree'] != null)) ? $data['degree']->deg_name." APPLICATION" : "APPLICATION";
 
+            // dd($data);
             return view('student.online.fill_form', $data);
         } catch (\Throwable $th) {
             throw $th;

@@ -265,6 +265,9 @@ $em_key = time().random_int(3000, 3099);
                                         <option value="{{ $program->id }}" {{ $application->program_first_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
                                 </select>
+                                @if($application->program_first_choice != null and collect($programs)->where('appliable', 1)->where('id', $application->program_first_choice)->count() == 0)
+                                    <small class="text-danger">@lang('text.unsupported_selection_phrase')</small>
+                                @endif
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-4 col-lg-4">
@@ -283,7 +286,11 @@ $em_key = time().random_int(3000, 3099);
                             <label class="text-secondary  text-capitalize">{{ __('text.word_level') }}<i class="text-danger text-xs">*</i></label>
                             <div class="">
                                 <select class="form-control text-primary"  name="level" required id="cplevels">
-                                    
+                                    @isset($levels)
+                                        @foreach ($levels as $lev)
+                                            <option value="{{ $lev->level }}" {{ $lev->level == $application->level ? 'selected': '' }}>{{ $lev->level }}</option>
+                                        @endforeach
+                                    @endisset
                                 </select>
                             </div>
                         </div>
@@ -434,7 +441,14 @@ $em_key = time().random_int(3000, 3099);
                                                     $counter++;
                                                 @endphp
                                                 <tr class="text-capitalize">
-                                                    <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]">
+                                                            <option value=""></option>
+                                                            @foreach ($subjects as $subject)
+                                                                <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
                                                     <td>
                                                         <select class="form-control text-primary input imput-sm"  name="ol_results[{{ $ol_key }}][grade]" value="">
                                                             <option value=""></option>
@@ -544,7 +558,14 @@ $em_key = time().random_int(3000, 3099);
                                                     $counter++
                                                 @endphp
                                                 <tr class="text-capitalize">
-                                                    <td><input class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]">
+                                                            <option value=""></option>
+                                                            @foreach ($subjects as $subject)
+                                                                <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
                                                     <td>
                                                         <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
                                                             <option value=""></option>
@@ -858,9 +879,9 @@ $em_key = time().random_int(3000, 3099);
             if("{{ $application->division }}" != null){
                 setDivisions('{{ $application->region }}');
             }
-            if("{{ $application->level }}" != null){
-                setLevels("{{ $application->program_first_choice }}");
-            }
+            // if("{{ $application->level }}" != null){
+            //    setLevels("{{ $application->program_first_choice }}");
+            // }
 
             // loadCampusDegrees("{{ $campuses[0]->id }}");
         });
@@ -876,7 +897,14 @@ $em_key = time().random_int(3000, 3099);
         let addAlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="al_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
+                            <td>
+                                <select class="form-control text-primary"  name="al_results[${key}][subject]" required>
+                                    <option value=""></option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                             <td>
                                 <select class="form-control text-primary"  name="al_results[${key}][grade]" required>
                                     <option value=""></option>
@@ -903,7 +931,14 @@ $em_key = time().random_int(3000, 3099);
         let addOlResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<tr class="text-capitalize">
-                            <td><input class="form-control text-primary"  name="ol_results[${key}][subject]" required value="" placeholder="@lang('text.word_subject')"></td>
+                            <td>
+                                <select class="form-control text-primary"  name="ol_results[${key}][subject]" required>
+                                    <option value=""></option>
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->name }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                             <td>
                                 <select class="form-control text-primary"  name="ol_results[${key}][grade]" required>
                                     <option value=""></option>

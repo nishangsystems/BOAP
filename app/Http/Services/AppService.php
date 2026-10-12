@@ -52,6 +52,7 @@ class AppService{
             $data['year'] = substr($appl->year->name, -4);
             $data['_year'] = substr($appl->year->name, 2, 2);
             // dd($data);
+            $data['campus_id'] = $appl->campus_id;
             $data['title'] = "ADMISSION LETTER";
             $data['name'] = $appl->name;
             $data['matric'] =  $appl->matric;
@@ -63,6 +64,7 @@ class AppService{
             $data['dvc1'] = $admins->dvc_admin??"DVC-NOT-SET";
             $data['dvc2'] = $admins->dvc_academic??"DVC-NOT-SET";
             $data['dvc3'] = $admins->dvc_coop??"DVC-NOT-SET";
+            $data['promoter'] = $admins->promoter??'PROMOTER-NOT-SET';
             $data['fee1_dateline'] = $config->fee1_latest_date;
             $data['fee2_dateline'] = $config->fee2_latest_date;
             $data['help_email'] =  $config->help_email;
@@ -90,7 +92,8 @@ class AppService{
     public function application_form($application_id){
         $application = ApplicationForm::find($application_id);
             $data['campuses'] = json_decode($this->api_service->campuses())->data;
-            $data['application'] = ApplicationForm::find($application_id);
+            $data['application'] = $application;
+            $data['campus_id'] = $application->campus_id;
             $data['degree'] = collect(json_decode($this->api_service->degrees())->data??[])->where('id', $data['application']->degree_id)->first();
             $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();
             $data['certs'] = json_decode($this->api_service->certificates())->data;
