@@ -265,10 +265,10 @@ class HomeController extends Controller
             // dd($transaction);
             $data['step'] = $step;
             if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
-            elseif(($transaction == null and $application->bank_payment_id == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
+            elseif(($transaction == null and $application->bank_payment_id == null and $application->degree_id != null) and $step != 6){$data['step'] = 6;}
             elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
             elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id == $application->degree_id) and $step == 0 ){$data['step'] = 1;}
-            elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
+            elseif(($application->degree_id != null) and ($transaction != null and $application->bank_payment_id == null) and ($transaction->payment_id != $application->degree_id) and $step != 6){$data['step'] = 6;}
             // dd($data['step']);
             // dd(($transaction->payment_id != $application->degree_id));
             
