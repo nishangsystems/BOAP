@@ -286,6 +286,7 @@ $em_key = time().random_int(3000, 3099);
                             <label class="text-secondary  text-capitalize">{{ __('text.word_level') }}<i class="text-danger text-xs">*</i></label>
                             <div class="">
                                 <select class="form-control text-primary"  name="level" required id="cplevels">
+                                    <option value=""></option>
                                     @isset($levels)
                                         @foreach ($levels as $lev)
                                             <option value="{{ $lev->level }}" {{ $lev->level == $application->level ? 'selected': '' }}>{{ $lev->level }}</option>
