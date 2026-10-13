@@ -244,7 +244,7 @@ class HomeController extends Controller
                 if($application->program_first_choice != null){
                     $prog = collect($data['programs'])->where('appliable', 1)->where('id', $application->program_first_choice)->first();
                     // if(!empty($prog))
-                    //     $data['levels'] = collect(json_decode($this->api_service->campusProgramLevels($application->campus_id, $application->program_first_choice))->data);
+                        $data['levels'] = collect(json_decode($this->api_service->campusProgramLevels($application->campus_id, $application->program_first_choice))->data);
                 }
 
                 $data['subjects'] = \App\Models\PortalSubject::where(['certificate_id' => $application->entry_qualification])->orderBy('name')->get();
