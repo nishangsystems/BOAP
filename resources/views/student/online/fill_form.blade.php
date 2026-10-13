@@ -444,7 +444,7 @@ $em_key = time().random_int(3000, 3099);
                                                     <td>
                                                         <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]">
                                                             <option value=""></option>
-                                                            @foreach ($subjects as $subject)
+                                                            @foreach ($subjects??[]  as $subject)
                                                                 <option value="{{ $subject->name }}">{{ $subject->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -561,7 +561,7 @@ $em_key = time().random_int(3000, 3099);
                                                     <td>
                                                         <select class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]">
                                                             <option value=""></option>
-                                                            @foreach ($subjects as $subject)
+                                                            @foreach ($subjects??[] as $subject)
                                                                 <option value="{{ $subject->name }}">{{ $subject->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -900,7 +900,7 @@ $em_key = time().random_int(3000, 3099);
                             <td>
                                 <select class="form-control text-primary"  name="al_results[${key}][subject]" required>
                                     <option value=""></option>
-                                    @foreach ($subjects as $subject)
+                                    @foreach ($subjects??[] as $subject)
                                         <option value="{{ $subject->name }}">{{ $subject->name }}</option>
                                     @endforeach
                                 </select>
@@ -934,7 +934,7 @@ $em_key = time().random_int(3000, 3099);
                             <td>
                                 <select class="form-control text-primary"  name="ol_results[${key}][subject]" required>
                                     <option value=""></option>
-                                    @foreach ($subjects as $subject)
+                                    @foreach ($subjects??[] as $subject)
                                         <option value="{{ $subject->name }}">{{ $subject->name }}</option>
                                     @endforeach
                                 </select>
