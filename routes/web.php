@@ -153,6 +153,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::post('change_program/{id?}', [ProgramController::class, 'change_program_save'])->name('_change.program');
         Route::get('by_program/{id?}', [ProgramController::class, 'applications_per_program'])->name('by_program');
         Route::get('by_degree/{id?}', [ProgramController::class, 'applications_per_degree'])->name('by_degree');
+        Route::get('by_campus/{id}/summary', [ProgramController::class, 'applications_summary_per_campus'])->name('by_campus.summary');
         Route::get('by_campus/{id?}', [ProgramController::class, 'applications_per_campus'])->name('by_campus');
         Route::get('finance/general', [ProgramController::class, 'finance_general_report'])->name('finance.general');
         Route::get('finance/summary', [ProgramController::class, 'finance_summary_report'])->name('finance.summary');

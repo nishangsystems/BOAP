@@ -1149,5 +1149,6 @@ return [
     'bank_payment_refernce' => 'bank payment refernce',
     'word_promoter' => 'promoter',
     'unsupported_selection_phrase' => 'Your entry qualification does not support the selected program. You may consider choosing a different program',
+    'word_summary' => 'summary',
     ''
 ];

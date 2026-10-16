@@ -738,6 +738,32 @@ class ProgramController extends Controller
         return view('admin.student.campus_applications', $data);
     }
 
+    public function applications_summary_per_campus($campus_id)
+    {
+        $campuses = collect(json_decode($this->api_service->campuses())->data);
+        $campus = $campuses->where('id', $campus_id)->first();
+        $programs = collect(json_decode($this->api_service->campusPrograms($campus_id))->data??[]);
+        $applicants = ApplicationForm::where([
+            'campus_id' => $campus_id,
+            'year_id' => $this->current_year,
+            'submitted' => 1,
+        ])->select(['program_first_choice', DB::raw('COUNT(id) as applicants')])
+            ->groupBy('program_first_choice')->pluck('applicants', 'program_first_choice');
+
+        $data['title'] = 'Applications Summary for '.($campus->name??'');
+        $data['programs'] = $programs->map(function($program)use($applicants){
+            $program->applicants = $applicants->get($program->id, 0);
+            return $program;
+        })->where('applicants', '>', 0);
+        $data['total_applicants'] = ApplicationForm::where([
+            'campus_id' => $campus_id,
+            'year_id' => $this->current_year,
+            'submitted' => 1,
+        ])->count();
+
+        return view('admin.student.campus_applications_summary', $data);
+    }
+
     public function finance_general_report(Request $request)
     {
         # code...
