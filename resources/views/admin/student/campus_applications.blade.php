@@ -16,7 +16,10 @@
                             <td class="border-left border-right">{{ $k++ }}</td>
                             <td class="border-left border-right">{{ $campus->campus_name }}</td>
                             <td class="border-left border-right">{{ $campus->applicants }}</td>
-                            <td class="border-left border-right"><a class="btn btn-sm btn-primary text-capitalize" href="{{ route('admin.applications.by_campus', $campus->campus_id) }}">{{ __('text.word_all') }}</a></td>
+                            <td class="border-left border-right">
+                                <a class="btn btn-sm btn-primary text-capitalize" href="{{ route('admin.applications.by_campus', $campus->campus_id) }}">{{ __('text.word_all') }}</a>
+                                <a class="btn btn-sm btn-info text-capitalize" href="{{ route('admin.applications.summary.by_campus', $campus->campus_id) }}">@lang('text.summary_report')</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
