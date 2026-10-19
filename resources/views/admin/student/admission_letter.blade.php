@@ -33,10 +33,10 @@
                                     <b>@lang('text.word_registrar')</b><br>
                                     {{ $registrar??'' }}
                                 </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                {{-- <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
                                     <b>@lang('text.DVC_administration_and_finanace')</b><br>
                                     {{ $dvc1??'' }}
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </td>
