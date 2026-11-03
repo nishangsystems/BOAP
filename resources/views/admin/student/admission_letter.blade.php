@@ -9,38 +9,40 @@
                     <td class="border-right border-4 margin-bottom-0 border-dark text-left px-0">
                         <div style="margin-top: -15rem !important;">
                             <div class="row container-fluid mx-0 px-0">
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.word_chancellor')</b><br>
-                                    {{ $chancellor??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.word_promoter')</b><br>
-                                    {{ $promoter??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.pro_chancellor')</b><br>
-                                    {{ $p_chancellor??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.vice_chancellor')</b><br>
-                                    {{ $v_chancellor??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.DVC_academic_affairs_and_research')</b><br>
-                                    {{ $dvc2??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.DVC_cooperation_and_innovation')</b><br>
-                                    {{ $dvc3??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.word_registrar')</b><br>
-                                    {{ $registrar??'' }}
-                                </div>
-                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
-                                    <b>@lang('text.DVC_administration_and_finanace')</b><br>
-                                    {{ $dvc1??'' }}
-                                </div>
+                                @if($application->campus_id == 5)
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.word_chancellor')</b><br>
+                                        {{ $chancellor??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.word_promoter')</b><br>
+                                        {{ $promoter??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.pro_chancellor')</b><br>
+                                        {{ $p_chancellor??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.vice_chancellor')</b><br>
+                                        {{ $v_chancellor??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.DVC_academic_affairs_and_research')</b><br>
+                                        {{ $dvc2??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.DVC_cooperation_and_innovation')</b><br>
+                                        {{ $dvc3??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.word_registrar')</b><br>
+                                        {{ $registrar??'' }}
+                                    </div>
+                                    <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                        <b>@lang('text.DVC_administration_and_finanace')</b><br>
+                                        {{ $dvc1??'' }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </td>
