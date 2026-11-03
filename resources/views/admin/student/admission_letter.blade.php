@@ -14,6 +14,10 @@
                                     {{ $chancellor??'' }}
                                 </div>
                                 <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
+                                    <b>@lang('text.word_promoter')</b><br>
+                                    {{ $promoter??'' }}
+                                </div>
+                                <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
                                     <b>@lang('text.pro_chancellor')</b><br>
                                     {{ $p_chancellor??'' }}
                                 </div>

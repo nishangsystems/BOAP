@@ -14,9 +14,9 @@ class AlterApplicationFormsAddBankPaymentId extends Migration
     public function up()
     {
         //
-        if(Schema::hasColumn('application_forms', 'bank_payment_id'))
+        if(Schema::connection('mysql2')->hasColumn('application_forms', 'bank_payment_id'))
             return;
-        Schema::table('application_forms', function(Blueprint $table){
+        Schema::connection('mysql2')->table('application_forms', function(Blueprint $table){
             $table->string('bank_payment_id')->nullable()->default(null);
         });
     }

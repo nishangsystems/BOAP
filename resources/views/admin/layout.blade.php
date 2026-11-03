@@ -344,14 +344,14 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{route('admin.applications.admit')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.admit_student')}}
                         </a>
 
                         <b class="arrow"></b>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{route('admin.applications.admitted_students')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>

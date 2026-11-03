@@ -217,9 +217,11 @@ class Helpers
         return $next_year;
     }
 
-    public function getHeader()
+    public function getHeader($cmapus_id = null)
     {
         # code...
+        if($cmapus_id != null)
+            return asset("assets/images/avatars/letterhead{$cmapus_id}.jpg");
         return asset('assets/images/avatars/letterhead.jpg');
     }
 
