@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,24 +36,20 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        // $this->reportable(function (Throwable $e) {
-        //     // catch and return error messages without throwing exceptions
-        //     Log::info($e->getMessage());
-        //     session()->flash('error', $e->getMessage());
-        //     return redirect(route('admin.home'))->withInput();
-        // });
-
-        $this->renderable(function (\Exception $e) {
-            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
-                return redirect()->route('login');
-            };
-            if ($e instanceof \GuzzleHttp\Exception\ServerException) {
-                # code...
-                return redirect(route('admin.home'));
+        // Laravel wraps CSRF token mismatches in an HTTP 419 before rendering.
+        $this->renderable(function (HttpException $e, $request) {
+            if ($e->getStatusCode() !== 419 || ! ($e->getPrevious() instanceof TokenMismatchException)) {
+                return null;
             }
-            // return $e;
-            // session()->flash('error', "F::{$e->getFile()}, L::{$e->getLine()}, M::{$e->getMessage()}");
-            // return back()->withInput();
+
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Your session has expired. Please try again.',
+                ], 419);
+            }
+
+            return redirect()->route('login')
+                ->with('error', 'Your session expired. Please try logging in again.');
         });
         
     }
