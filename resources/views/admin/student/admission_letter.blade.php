@@ -9,7 +9,7 @@
                     <td class="border-right border-4 margin-bottom-0 border-dark text-left px-0">
                         <div style="margin-top: -15rem !important;">
                             <div class="row container-fluid mx-0 px-0">
-                                @if($application->campus_id == 5)
+                                @if($campus_id == 5)
                                     <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize px-0">
                                         <b>@lang('text.word_chancellor')</b><br>
                                         {{ $chancellor??'' }}
