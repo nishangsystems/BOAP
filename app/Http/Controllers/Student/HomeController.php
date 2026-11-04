@@ -741,7 +741,7 @@ class HomeController extends Controller
                 }
             } 
             catch(ConnectException $e){
-                // throw $e;
+                logger()->error($e);
                 return back()->with('error', $e->getMessage());
             }
         } catch (\Throwable $th) {
