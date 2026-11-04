@@ -723,12 +723,14 @@ class HomeController extends Controller
     
             try {
                 //code...
-                $data = $request->all();
-                $response = Http::post(env('CHARGES_PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments"), $data);
+                $data = $request->except(['_token']);
+                $url = env('CHARGES_PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments");
+                logger()->info("PAYMENT REQUEST TO: {$url} \nDATA: ".json_encode($data));
+                $response = Http::post($url, $data);
                 // dd($response->body());
                 if(!$response->ok()){
                     // throw $response;
-                    return back()->with('error', 'Operation failed. '.$response->body());
+                    return back()->with('error', 'Operation failed. '.json_encode($response->collect()));
                     // dd($response->body());
                 }
                 
@@ -741,6 +743,7 @@ class HomeController extends Controller
                 }
             } 
             catch(ConnectException $e){
+                throw $e;
                 logger()->error($e);
                 return back()->with('error', $e->getMessage());
             }

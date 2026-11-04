@@ -136,8 +136,7 @@ class Controller extends BaseController
         # code...
         $validator = Validator::make($request->all(), [
             'current_password'=>'required',
-            'new_password_confirmation'=>'required_with:new_password|same:new_password|min:6',
-            'new_password'=>'required|min:6',
+            'new_password'=>'required|min:6|confirmed',
         ]);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->first());
