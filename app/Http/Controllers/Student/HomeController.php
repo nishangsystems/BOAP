@@ -748,7 +748,7 @@ class HomeController extends Controller
                 return back()->with('error', $e->getMessage());
             }
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
             session()->flash('error', "F::{$th->getFile()}, L::{$th->getLine()}, M::{$th->getMessage()}");
             return back();
         }
