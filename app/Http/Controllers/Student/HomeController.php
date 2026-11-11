@@ -725,7 +725,7 @@ class HomeController extends Controller
                 //code...
                 $data = $request->except(['_token']);
                 $url = env('CHARGES_PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments");
-                logger()->info("PAYMENT REQUEST TO: {$url} \nDATA: ".json_encode($data));
+                // logger()->info("PAYMENT REQUEST TO: {$url} \nDATA: ".json_encode($data));
                 $response = Http::post($url, $data);
                 // dd($response->body());
                 if(!$response->ok()){
