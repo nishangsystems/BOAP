@@ -726,13 +726,7 @@ class HomeController extends Controller
                 $data = $request->except(['_token']);
                 $url = env('CHARGES_PAYMENT_URL', "https://nishangmomo.buibsystems.org/api/make-payments");
                 logger()->info("PAYMENT REQUEST TO: {$url} \nDATA: ".json_encode($data));
-                $response = Http::withoutVerifying()->withHeaders([
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                    ])->withOptions([
-                        'version' => 1.1, // force HTTP/1.1, not HTTP/2
-                        'curl' => [CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2]
-                    ])->post($url, $data);
+                $response = Http::withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])->post($url, $data);
                 // dd($response->body());
                 if(!$response->ok()){
                     // throw $response;
