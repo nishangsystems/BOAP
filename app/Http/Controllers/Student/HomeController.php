@@ -764,7 +764,7 @@ class HomeController extends Controller
         $url = env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status');
 
         try {
-            $response = Http::timeout(15)->post($url, $validated);
+            $response = Http::withOptions(['curl' => [CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4]])->timeout(15)->post($url, $validated);
         } catch (\Illuminate\Http\Client\ConnectionException $e) {
             logger()->error('Unable to check charges transaction status.', [
                 'transaction_id' => $validated['transaction_id'],
