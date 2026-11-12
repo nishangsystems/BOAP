@@ -34,7 +34,6 @@
 
     const transactionId = "{{ $transaction_id }}";
     const statusUrl = "{{ route('student.charges.status') }}";
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     // check for the transaction status every 3s
     let set_interval = setInterval(() => {
