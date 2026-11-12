@@ -35,22 +35,18 @@
     const transactionId = "{{ $transaction_id }}";
     const statusUrl = "{{ route('student.charges.status') }}";
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    let statusRequestPending = false;
 
     // check for the transaction status every 3s
     let set_interval = setInterval(() => {
-        if (statusRequestPending) {
-            return;
-        }
 
         statusRequestPending = true;
         $.ajax({
-            method: 'post',
+            method: 'GET',
             data: {transaction_id: transactionId},
             url: statusUrl,
-            headers: {'X-CSRF-TOKEN': csrfToken},
             success: function(data){
                 // check if status is completed or failed
+                console.log(data);
                 if(data.status == "SUCCESSFUL"){
                     clearInterval(set_interval);
                     let action = "{{ route('student.charges.complete', '__TID__') }}";
@@ -68,9 +64,6 @@
             },
             error: function(xhr, status, error){
                 console.error('Unable to check transaction status.', error);
-            },
-            complete: function(){
-                statusRequestPending = false;
             }
         });
     }, 3000);
