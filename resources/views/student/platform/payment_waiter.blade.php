@@ -32,8 +32,8 @@
         gap += 3;
     }, 200);
 
-    const transactionId = @json($transaction_id);
-    const statusUrl = @json(route('student.charges.status'));
+    const transactionId = "{{ $transaction_id }}";
+    const statusUrl = "{{ route('student.charges.status') }}";
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let statusRequestPending = false;
 
