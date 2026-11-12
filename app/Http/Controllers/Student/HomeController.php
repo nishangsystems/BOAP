@@ -755,6 +755,46 @@ class HomeController extends Controller
         
     }
 
+    public function check_charges_transaction_status(Request $request)
+    {
+        $validated = $request->validate([
+            'transaction_id' => 'required|string',
+        ]);
+
+        $url = env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status');
+
+        try {
+            $response = Http::timeout(15)->post($url, $validated);
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            logger()->error('Unable to check charges transaction status.', [
+                'transaction_id' => $validated['transaction_id'],
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json(['message' => 'Unable to check transaction status.'], 502);
+        }
+
+        if (!$response->successful()) {
+            logger()->warning('Charges transaction status service returned an error.', [
+                'transaction_id' => $validated['transaction_id'],
+                'status' => $response->status(),
+            ]);
+
+            return response()->json(['message' => 'Unable to check transaction status.'], 502);
+        }
+
+        $status = $response->json();
+        if (!is_array($status) || !isset($status['status'])) {
+            logger()->warning('Charges transaction status service returned an invalid response.', [
+                'transaction_id' => $validated['transaction_id'],
+            ]);
+
+            return response()->json(['message' => 'Invalid transaction status response.'], 502);
+        }
+
+        return response()->json($status);
+    }
+
     //----------
     public function complete_charges_transaction(Request $request, $ts_id)
     {

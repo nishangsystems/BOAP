@@ -32,32 +32,45 @@
         gap += 3;
     }, 200);
 
+    const transactionId = @json($transaction_id);
+    const statusUrl = @json(route('student.charges.status'));
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let statusRequestPending = false;
+
     // check for the transaction status every 3s
     let set_interval = setInterval(() => {
-        ts_id = '{{$transaction_id}}';
-        _url = `{{env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status')}}`;
+        if (statusRequestPending) {
+            return;
+        }
+
+        statusRequestPending = true;
         $.ajax({
             method: 'post',
-            data: {transaction_id: ts_id},
-            url: _url,
-            headers: { 'Access-Control-Allow-Origin': '*' },
+            data: {transaction_id: transactionId},
+            url: statusUrl,
+            headers: {'X-CSRF-TOKEN': csrfToken},
             success: function(data){
                 // check if status is completed or failed
-                console.log(data);
                 if(data.status == "SUCCESSFUL"){
                     clearInterval(set_interval);
-                    action = "{{route('student.charges.complete', '__TID__')}}";
-                    action = action.replace('__TID__', ts_id);
-                    action = action+'?financialTransactionId='+data.financialTransactionId;
+                    let action = "{{ route('student.charges.complete', '__TID__') }}";
+                    action = action.replace('__TID__', transactionId);
+                    action = action+'?financialTransactionId='+encodeURIComponent(data.financialTransactionId);
                     window.location = action;
                 }
                 if(data.status == "FAILED"){
                     clearInterval(set_interval);
-                    action = "{{route('student.charges.failed', '__TID__')}}";
-                    action = action.replace('__TID__', ts_id);
-                    action = action+'?financialTransactionId='+data.financialTransactionId;
+                    let action = "{{ route('student.charges.failed', '__TID__') }}";
+                    action = action.replace('__TID__', transactionId);
+                    action = action+'?financialTransactionId='+encodeURIComponent(data.financialTransactionId);
                     window.location = action;
                 }
+            },
+            error: function(xhr, status, error){
+                console.error('Unable to check transaction status.', error);
+            },
+            complete: function(){
+                statusRequestPending = false;
             }
         });
     }, 3000);

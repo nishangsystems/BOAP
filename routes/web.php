@@ -305,6 +305,7 @@ Route::prefix('student')->name('student.')->middleware(['isStudent', 'plcharge']
 Route::middleware('isStudent')->group(function(){
     Route::post('student/charges/pay', 'Student\HomeController@pay_charges_save')->name('student.charge.pay');
     Route::get('student/platform/pay', 'Student\HomeController@pay_platform_charges')->name('student.platform_charge.pay');
+    Route::post('student/charges/transaction-status', 'Student\HomeController@check_charges_transaction_status')->name('student.charges.status');
     Route::get('student/charges/complete_transaction/{ts_id}', 'Student\HomeController@complete_charges_transaction')->name('student.charges.complete');
     Route::get('student/charges/failed_transaction/{ts_id}', 'Student\HomeController@failed_charges_transaction')->name('student.charges.failed');
     Route::get('student/tranzak/processing', 'Student\HomeController@tranzak_payment_processing')->name('student.tranzak.processing');
