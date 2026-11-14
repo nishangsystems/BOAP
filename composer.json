@@ -38,7 +38,53 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "policy": {
+            "advisories": {
+                "ignore-id": {
+                    "PKSA-cv56-2228-pzr6": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-6r8f-nxsb-67bq": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-gh7h-hhy4-byg7": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-mwt3-h9tv-kx78": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-hp6n-n4kz-21wk": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-mckv-s5hg-868k": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-7ztm-rpt3-qqzk": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-2kw5-jd8w-5mvh": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-4jrs-y99s-q8j6": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    },
+                    "PKSA-hbk6-2vfz-8f8n": {
+                        "on-block": false,
+                        "reason": "Temporary exception; remove after upgrading Dompdf."
+                    }
+                }
+            }
+        }
     },
     "extra": {
         "laravel": {
