@@ -155,22 +155,7 @@
 @endsection
 @section('style')
     <style>
-        @page {
-            size: A4;
-            margin: 0;
-        }
-
-        @media print {
-            .no-skin > div > img:first-child {
-                display: none !important;
-            }
-
-            .admission-letter {
-                box-sizing: border-box;
-                padding: 10mm !important;
-            }
-        }
-
+        
         #sign_box{
             height:17rem; 
             width:20rem; 
