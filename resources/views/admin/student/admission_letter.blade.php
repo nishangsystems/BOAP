@@ -1,6 +1,6 @@
 @extends('admin.printable2')
 @section('section')
-    <div class="p-2">
+    <div class="p-2 admission-letter">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
         <table style="table-layout: fixed; line-height: 1.4;">
@@ -155,6 +155,22 @@
 @endsection
 @section('style')
     <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        @media print {
+            .no-skin > div > img:first-child {
+                display: none !important;
+            }
+
+            .admission-letter {
+                box-sizing: border-box;
+                padding: 10mm !important;
+            }
+        }
+
         #sign_box{
             height:17rem; 
             width:20rem; 
